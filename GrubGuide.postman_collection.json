@@ -1,0 +1,265 @@
+{
+	"info": {
+		"_postman_id": "c6a8909f-7099-41d0-a616-06344a69ee9b",
+		"name": "GrubGuide",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33662947"
+	},
+	"item": [
+		{
+			"name": "Menu",
+			"item": [
+				{
+					"name": "search new Menu by id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/menu/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rest_id\": \"1\",     \n  \"id\": \"1\",\n  \"menu_type\": \"dinner\",\n  \"rating\": 5,\n  \"gallery_image\": \"https://example.com/images/dinner-special.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/menu/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Creating new Menu",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rest_id\": 1,     \n  \"id\": 1,\n  \"menu_type\": \"lunch\",\n  \"rating\": 4.50,\n  \"gallery_image\": \"https://example.com/images/lunch-special.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/menu",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dish",
+			"item": [
+				{
+					"name": "NewDish",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Margherita Pizza\",\n    \"rating\": 4.5,\n    \"image\": \"https://example.com/images/margherita-pizza.jpg\",\n    \"description\": \"Classic Margherita pizza with fresh mozzarella, tomatoes, and basil\",\n    \"availability_time\": \"lunch\",\n    \"tags\": \"Italian, Vegetarian, Pizza\",\n    \"price\": 12.99,\n    \"rest_id\": 1,\n    \"menu_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/dish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"dish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"rest_id\": \"1\",     \n  \"id\": \"1\",\n  \"menu_type\": \"dinner\",\n  \"rating\": 5,\n  \"gallery_image\": \"https://example.com/images/dinner-special.jpg\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/menu/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"menu",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetDish by ID",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Restaurant",
+			"item": [
+				{
+					"name": "NewDish",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"Margherita Pizza\",\n    \"rating\": 4.5,\n    \"image\": \"https://example.com/images/margherita-pizza.jpg\",\n    \"description\": \"Classic Margherita pizza with fresh mozzarella, tomatoes, and basil\",\n    \"availability_time\": \"lunch\",\n    \"tags\": \"Italian, Vegetarian, Pizza\",\n    \"price\": 12.99,\n    \"rest_id\": 1,\n    \"menu_id\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/dish",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"dish"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Menu Copy",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\": 1,\n    \"name\": \"Zom Delight\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/restaurant/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GetRestaurant by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/restaurant/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"restaurant",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "API requests for restaurants"
+		}
+	]
+}
