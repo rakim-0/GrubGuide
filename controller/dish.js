@@ -43,12 +43,12 @@ exports.getDishById = async (req, res) => {
         id: "required|integer",
     };
     try {
-        // const validator = make(req.params.id, rules);
-        // if (!validator.validate()) {
-        //     return res
-        //         .status(400)
-        //         .json({ "Errors: ": validator.errors().all() });
-        // }
+        const validator = make(req.params, rules);
+        if (!validator.validate()) {
+            return res
+                .status(400)
+                .json({ "Errors: ": validator.errors().all() });
+        }
         const dish = await Dish.findByPk(req.params.id);
         if (dish) {
             res.json(dish);
@@ -95,5 +95,34 @@ exports.updateDish = async (req, res) => {
         } catch (error) {
             res.status(400).json({ message: error.message });
         }
+    }
+};
+
+exports.deleteDishByID = async (req, res) => {
+    const rules = {
+        id: "required|integer",
+    };
+    try {
+        const validator = make(req.params, rules);
+        if (!validator.validate()) {
+            return res
+                .status(400)
+                .json({ "Errors: ": validator.errors().all() });
+        }
+        const dish = await Dish.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        if (dish) {
+            res.json({
+                message: `Dish ${req.params.id} has been deleted successfully!`,
+            });
+        } else {
+            res.status(404).json({ message: "Dish not found" });
+        }
+    } catch (error) {
+        console.error("Error in getDishById:", error);
+        res.status(500).json({ message: "Internal server error" });
     }
 };

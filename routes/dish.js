@@ -6,6 +6,7 @@ dishRouter
     .post("/api/dish", dishController.createDish)
     .get("/api/dish/:id", dishController.getDishById)
     .get("/api/dish", dishController.getAllDishes)
+    .delete("/api/dish/:id", dishController.deleteDishByID)
     .patch("/api/dish", dishController.updateDish);
 
 module.exports = dishRouter;

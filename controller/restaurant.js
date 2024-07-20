@@ -107,3 +107,31 @@ exports.getRestaurantById = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+exports.deleteRestaurantById = async (req, res) => {
+    const rules = {
+        id: "required|integer",
+    };
+
+    try {
+        const validator = make(req.params, rules);
+        if (!validator.validate()) {
+            return res.status(400).json({ Errors: validator.errors().all() });
+        }
+
+        const restaurant = await Restaurant.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+        if (restaurant) {
+            res.json(
+                `Restaurant ${req.params.id} has been deleted successfully.`
+            );
+        } else {
+            res.status(404).json({ message: "Restaurant not found" });
+        }
+    } catch (error) {
+        console.error("Error in getRestaurantById:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};

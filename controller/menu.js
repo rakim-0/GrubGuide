@@ -90,3 +90,34 @@ exports.getMenuById = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+exports.deleteMenuById = async (req, res) => {
+    const rules = {
+        id: "required|integer",
+    };
+
+    try {
+        const validator = make(req.params, rules);
+        if (!validator.validate()) {
+            return res
+                .status(400)
+                .json({ "Errors: ": validator.errors().all() });
+        }
+
+        const menu = await Menu.destroy({
+            where: {
+                id: req.params.id,
+            },
+        });
+
+        if (menu) {
+            res.json({
+                message: `Menu ${req.params.id} has been deleted successfully!`,
+            });
+        } else {
+            res.status(404).json({ message: "Menu not found" });
+        }
+    } catch (error) {
+        console.error("Error in getMenuById:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+};
