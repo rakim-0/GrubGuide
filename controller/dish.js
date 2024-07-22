@@ -1,49 +1,37 @@
 const Dish = require("../model/dish");
 const { make } = require("simple-body-validator");
-
+const { creationRule, updationRule } = require("./rules/dish");
+// TODO: Cleanup
 exports.createDish = async (req, res) => {
-    const rules = {
-        name: "required|string",
-        rating: "numeric|min:0|max:5",
-        image: "string|max:255",
-        description: "string",
-        availability_time: "required|in:morning,lunch,dinner",
-        tags: "required|string",
-        price: "required|numeric|min:0",
-        rest_id: "required|integer",
-        menu_id: "required|integer",
-    };
     try {
         if (!req.body || Object.keys(req.body).length === 0) {
             throw new Error("Request body is empty");
         }
-        const validator = make(req.body, rules);
+        const validator = make(req.body, creationRule);
         if (!validator.validate()) {
-            res.status(400).json({ "Errors: ": validator.errors().all() });
-        } else {
-            const newDish = await Dish.create(req.body);
-            res.status(201).json(newDish);
+            return res
+                .status(400)
+                .json({ "Errors: ": validator.errors().all() });
         }
+        const newDish = await Dish.create(req.body);
+        return res.status(201).json(newDish);
     } catch (error) {
         console.error("Error:", error);
-        res.status(400).json({ message: error.message });
+        return res.status(400).json({ message: error.message });
     }
 };
 
 exports.getAllDishes = async (req, res) => {
     try {
         const dishes = await Dish.findAll();
-        res.json(dishes);
+        return res.json(dishes);
     } catch (error) {
-        res.status(500).json({ message: error.message });
+        return res.status(500).json({ message: error.message });
     }
 };
 exports.getDishById = async (req, res) => {
-    const rules = {
-        id: "required|integer",
-    };
     try {
-        const validator = make(req.params, rules);
+        const validator = make(req.params, updationRule);
         if (!validator.validate()) {
             return res
                 .status(400)
@@ -51,10 +39,9 @@ exports.getDishById = async (req, res) => {
         }
         const dish = await Dish.findByPk(req.params.id);
         if (dish) {
-            res.json(dish);
-        } else {
-            res.status(404).json({ message: "Dish not found" });
+            return res.json(dish);
         }
+        return res.status(404).json({ message: "Dish not found" });
     } catch (error) {
         console.error("Error in getDishById:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -62,48 +49,28 @@ exports.getDishById = async (req, res) => {
 };
 
 exports.updateDish = async (req, res) => {
-    const rules = {
-        id: "numeric",
-        name: "string",
-        rating: "numeric|min:0|max:5",
-        image: "string|max:255",
-        description: "string",
-        availability_time: "in:morning,lunch,dinner",
-        tags: "string",
-        price: "numeric|min:0",
-        rest_id: "integer",
-        menu_id: "integer",
-    };
-    const validator = make(req.body, rules);
+    const validator = make(req.body, updationRule);
     if (!validator.validate()) {
         res.status(400).json({ "Errors: ": validator.errors().all() });
-    } else {
-        try {
-            const [updatedRowsCount, updatedMenus] = await Dish.update(
-                req.body,
-                {
-                    where: { id: req.body.id },
-                    returning: true,
-                }
-            );
+    }
+    try {
+        const [updatedRowsCount, updatedMenus] = await Dish.update(req.body, {
+            where: { id: req.body.id },
+            returning: true,
+        });
 
-            if (updatedRowsCount === 0) {
-                return res.status(404).json({ message: "Dish not found" });
-            }
-
-            res.json({ msg: "Successfully Updated!" });
-        } catch (error) {
-            res.status(400).json({ message: error.message });
+        if (updatedRowsCount === 0) {
+            return res.status(404).json({ message: "Dish not found" });
         }
+        return res.json({ msg: "Successfully Updated!" });
+    } catch (error) {
+        res.status(400).json({ message: error.message });
     }
 };
 
 exports.deleteDishByID = async (req, res) => {
-    const rules = {
-        id: "required|integer",
-    };
     try {
-        const validator = make(req.params, rules);
+        const validator = make(req.params, updationRule);
         if (!validator.validate()) {
             return res
                 .status(400)
@@ -115,12 +82,11 @@ exports.deleteDishByID = async (req, res) => {
             },
         });
         if (dish) {
-            res.json({
+            return res.json({
                 message: `Dish ${req.params.id} has been deleted successfully!`,
             });
-        } else {
-            res.status(404).json({ message: "Dish not found" });
         }
+        return res.status(404).json({ message: "Dish not found" });
     } catch (error) {
         console.error("Error in getDishById:", error);
         res.status(500).json({ message: "Internal server error" });

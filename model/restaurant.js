@@ -1,6 +1,8 @@
 const DataTypes = require("sequelize");
 const sequelize = require("../db/sequelize-connection");
 
+// TODO: Passport.js add additional column for created by.
+
 // -- Basic Information (Zomato signup page)
 //     -- name
 //     -- address
