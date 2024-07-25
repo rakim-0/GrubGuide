@@ -1,5 +1,5 @@
 // RestaurantController.js
-const { Restaurant } = require("../model/restaurant");
+const Restaurant = require("../model/restaurant");
 const { make } = require("simple-body-validator");
 const { creationRule, updationRule } = require("./rules/restaurant");
 exports.createRestaurant = async (req, res) => {

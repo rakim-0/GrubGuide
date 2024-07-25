@@ -74,4 +74,4 @@ const Restaurant = sequelize.define("Restaurant", {
     },
 });
 // console.log(restaurant == sequelize.models.restaurant);
-module.exports = { Restaurant };
+module.exports = Restaurant;
