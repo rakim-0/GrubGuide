@@ -13,12 +13,18 @@ const restaurantRouter = require("./routes/restaurant");
 const syncDatabase = require("./db/sync-databases");
 
 app.use(express.json());
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 app.use((req, res, next) => {
-    res.locals.currentUser = req.user;
+    if (req.user) {
+        console.log(req.user);
+        res.locals.currentUser = req.user;
+    }
     next();
 });
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
-app.use(passport.session());
 app.use([menuRouter, dishRouter, restaurantRouter]);
 
 app.set("view engine", "ejs");
@@ -52,10 +58,8 @@ app.post(
         failureRedirect: "/failure",
     })
 );
-
 app.get("/success", (req, res) => {
-    var user = res.locals.currentUser;
-    return res.json(user);
+    return res.json({ user: res.locals.currentUser });
 });
 passport.use(
     new LocalStrategy(async (username, password, done) => {
@@ -83,7 +87,7 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = User.findByPk(id);
+        const user = await User.findByPk(id);
         done(null, user);
     } catch (err) {
         done(err);
