@@ -3,19 +3,37 @@
     .navbar {
         display: flex;
         justify-content: space-between;
+        align-items: center;
         background-color: #333;
+        padding: 1rem;
+    }
+
+    .nav-group {
+        flex: 1;
+        display: flex;
+    }
+
+    .nav-group.left {
+        justify-content: flex-start;
+    }
+
+    .nav-group.center {
+        justify-content: center;
+    }
+
+    .nav-group.right {
+        justify-content: flex-end;
     }
 
     .nav-list {
         display: flex;
-        justify-content: space-between;
         list-style-type: none;
         margin: 0;
         padding: 0;
     }
 
     .nav-item {
-        margin-right: 1rem;
+        margin: 0 0.5rem;
     }
 
     .nav-item a,
@@ -23,17 +41,23 @@
         color: white;
         text-decoration: none;
     }
-
-    nav {
-        padding-top: 2rem;
-        padding-right: 1rem;
-        padding-left: 1rem;
-    }
 </style>
+
 <nav class="navbar">
-    <a href="#" class="nav-item">Get the app!</a></li>
-    <ul class="nav-list">
-        <li class="nav-item"><a href="#">Login</a></li>
-        <li class="nav-item"><a href="/sign-up">Sign Up</a></li>
-    </ul>
+    <div class="nav-group left">
+        <a href="#" class="nav-item">Get the app!</a>
+    </div>
+    <div class="nav-group center">
+        <a href="#" class="nav-item"><b>GrubGuide</b></a>
+    </div>
+    <div class="nav-group right">
+        <% if (!locals.currentUser) { %>
+            <ul class="nav-list">
+                <li class="nav-item"><a href="/login">Login</a></li>
+                <li class="nav-item"><a href="/signup">Sign Up</a></li>
+            </ul>
+            <% } else { %>
+                <!-- Add logged-in user options here if needed -->
+                <% } %>
+    </div>
 </nav>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrubGuide - Add Dish</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: 100% 120%;
+    }
+
+    h1 {
+        font-family: helvetica;
+        margin-top: 3rem;
+        font-size: 4rem;
+        text-align: center;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+    <%- include('partials/navbar') %>
+        <main class="flex-grow-1 pt-3">
+            <h1>Add New Dish</h1>
+            <div class="form-container pt-3">
+                <form action="/api/dish" method="POST">
+                    <div class="form-group">
+                        <label for="name">Dish Name:</label>
+                        <input class="form-control" type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="image">Image URL:</label>
+                        <input class="form-control" type="text" id="image" name="image">
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description:</label>
+                        <textarea class="form-control" id="description" name="description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="availability_time">Availability Time:</label>
+                        <select class="form-control" id="availability_time" name="availability_time" required>
+                            <option value="morning">Morning</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="tags">Tags:</label>
+                        <input class="form-control" type="text" id="tags" name="tags" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input class="form-control" type="number" step="0.01" id="price" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="rest_id">Restaurant ID:</label>
+                        <input class="form-control" type="number" id="rest_id" name="rest_id" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="menu_id">Menu ID:</label>
+                        <input class="form-control" type="number" id="menu_id" name="menu_id" required>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Add Dish</button>
+                </form>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <%- include('partials/footer') %>
+</body>
+
+</html>

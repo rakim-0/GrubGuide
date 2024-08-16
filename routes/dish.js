@@ -3,7 +3,7 @@ const dishRouter = express.Router();
 const dishController = require("../controller/dish");
 
 dishRouter
-    .post("/api/dish")
+    .post("/api/dish", dishController.createDish)
     .get("/api/dish/:id", dishController.getDishById)
     .get("/api/dish", dishController.getAllDishes)
     .delete("/api/dish/:id", dishController.deleteDishByID)

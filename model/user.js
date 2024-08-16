@@ -8,10 +8,6 @@ const DataTypes = require("sequelize");
 const sequelize = require("../db/sequelize-connection");
 
 const User = sequelize.define("User", {
-    rest_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
     id: {
         type: DataTypes.INTEGER,
         allowNull: false,

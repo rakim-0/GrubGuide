@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrubGuide - Add Menu</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: 100% 120%;
+    }
+
+    h1 {
+        font-family: helvetica;
+        margin-top: 3rem;
+        font-size: 4rem;
+        text-align: center;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+    <%- include('partials/navbar') %>
+        <main class="flex-grow-1 pt-3">
+            <h1>Add New Menu</h1>
+            <div class="form-container pt-3">
+                <form action="/api/menu" method="POST">
+                    <div class="form-group">
+                        <label for="rest_id">Restaurant ID:</label>
+                        <input class="form-control" type="hidden" id="rest_id" name="rest_id"
+                            value="<% locals.query.rest_id %>">
+                    </div>
+                    <div class="form-group">
+                        <label for="menu_type">Menu Type:</label>
+                        <select class="form-control" id="menu_type" name="menu_type" required>
+                            <option value="morning">Morning</option>
+                            <option value="lunch">Lunch</option>
+                            <option value="dinner">Dinner</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="gallery_image">Gallery Image URL:</label>
+                        <input class="form-control" type="text" id="gallery_image" name="gallery_image">
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100">Add Menu</button>
+                </form>
+            </div>
+        </main>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <%- include('partials/footer') %>
+</body>
+
+</html>

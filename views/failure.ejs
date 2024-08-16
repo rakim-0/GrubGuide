@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrubGuide - Add Restaurant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: 100% 120%;
+    }
+
+    h1 {
+        font-family: helvetica;
+        margin-top: 3rem;
+        font-size: 4rem;
+        text-align: center;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-container input,
+    .form-container textarea {
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+</style>
+
+<body class="d-flex flex-column min-vh-100">
+    <%- include('partials/navbar') %>
+        <h1> Invalid Username/Password!</h1>
+        <div class="row flex-grow-1 justify-content-center mx-auto">
+            <div class="col-sm-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">New to GrubGuide?</h5>
+                        <p class="card-text">Create an account to start exploring.</p>
+                        <a href="/signup" class="btn btn-dark">Sign Up</a>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-sm-6">
+                <div class="card" style="width: 400px;">
+                    <div class="card-body">
+                        <h5 class="card-title">Already have an account?</h5>
+                        <p class="card-text">Log in to access your GrubGuide profile.</p>
+                        <a href="/login" class="btn btn-dark">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%- include('partials/footer') %>
+</body>
+
+</html>

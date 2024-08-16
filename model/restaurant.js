@@ -23,6 +23,10 @@ const Restaurant = sequelize.define("Restaurant", {
         autoIncrement: true,
         primaryKey: true,
     },
+    user_id: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
     name: {
         type: DataTypes.TEXT,
         allowNULL: false,

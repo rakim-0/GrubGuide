@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrubGuide - Add Restaurant</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<style>
+    body {
+        background-size: 100% 120%;
+    }
+
+    h1 {
+        font-family: helvetica;
+        margin-top: 3rem;
+        font-size: 4rem;
+        text-align: center;
+    }
+
+    .form-container {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-container input,
+    .form-container textarea {
+        margin-bottom: 10px;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+</style>
+<%- include('partials/navbar') %>
+
+    <body class="d-flex flex-column min-vh-100">
+
+        <% if (!locals.currentUser) { %>
+            <h1>Please log in</h1>
+            <% }else {%>
+                <main class="flex-grow-1 pt-3">
+                    <h1>Add New Restaurant</h1>
+                    <div class="form-container pt-3">
+                        <form action="/api/restaurant" method="POST">
+                            <div class="form-group">
+                                <input type="hidden" id="user_id" name="user_id" value="<%= currentUser.id %>">
+                            </div>
+                            <div class="form-group">
+                                <label for="name">Restaurant Name: </label>
+                                <input class="form-control" type="text" name="name" id="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="address">Address: </label>
+                                <textarea class="form-control" name="address" id="address" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_email">Contact Email: </label>
+                                <input class="form-control" type="email" name="contact_email" id="contact_email"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_name">Contact Name: </label>
+                                <input class="form-control" type="text" name="contact_name" id="contact_name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="contact_phone">Contact Phone: </label>
+                                <input class="form-control" type="tel" name="contact_phone" id="contact_phone" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="open_time">Opening Time: </label>
+                                <input class="form-control" type="time" name="open_time" id="open_time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="closing_time">Closing Time: </label>
+                                <input class="form-control" type="time" name="closing_time" id="closing_time" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="latitude">Latitude: </label>
+                                <input class="form-control" type="number" step="0.0000001" name="latitude" id="latitude"
+                                    required>
+                            </div>
+                            <div class="form-group">
+                                <label for="longitude">Longitude: </label>
+                                <input class="form-control" type="number" step="0.0000001" name="longitude"
+                                    id="longitude" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="tags">Tags (comma-separated): </label>
+                                <input class="form-control" type="text" name="tags" id="tags" required>
+                            </div>
+                            <button type="submit" class="btn btn-dark w-100">Add Restaurant</button>
+                        </form>
+                    </div>
+                    <% }%>
+                </main>
+                <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                <%- include('partials/footer') %>
+    </body>
+
+</html>
