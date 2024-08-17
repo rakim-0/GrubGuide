@@ -34,11 +34,12 @@
         <main class="flex-grow-1 pt-3">
             <h1>Add New Menu</h1>
             <div class="form-container pt-3">
-                <form action="/api/menu" method="POST">
+                <form id="arf" action="/api/menu" method="POST">
                     <div class="form-group">
-                        <label for="rest_id">Restaurant ID:</label>
-                        <input class="form-control" type="hidden" id="rest_id" name="rest_id"
-                            value="<% locals.query.rest_id %>">
+                        <input type="hidden" id="rest_id" name="rest_id" value=<%=restId %>>
+                    </div>
+                    <div class="form-group">
+                        <input type="hidden" id="rating" name="rating" value=0.0>
                     </div>
                     <div class="form-group">
                         <label for="menu_type">Menu Type:</label>
@@ -57,6 +58,33 @@
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById('arf').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const sentData = Object.fromEntries(formData.entries());
+                fetch('/api/menu', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(sentData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data.rest_id);
+                        console.log(data.id);
+                        if (data.rest_id && data.id) {
+                            window.location.href = `/create-dish?rest_id=${data.rest_id}&menu_id=${data.id}`;
+                        } else {
+                            alert('Error creating menu. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('An error occurred. Please try again.');
+                    });
+            });
+        </script>
         <%- include('partials/footer') %>
 </body>
 
