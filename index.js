@@ -24,7 +24,6 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
     if (req.user) {
-        console.log(req.user);
         res.locals.currentUser = req.user;
     }
     res.locals.query = req.query;

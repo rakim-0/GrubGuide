@@ -72,8 +72,6 @@
                 })
                     .then(response => response.json())
                     .then(data => {
-                        console.log(data.rest_id);
-                        console.log(data.id);
                         if (data.rest_id && data.id) {
                             window.location.href = `/create-dish?rest_id=${data.rest_id}&menu_id=${data.id}`;
                         } else {

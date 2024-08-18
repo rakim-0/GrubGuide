@@ -34,7 +34,15 @@
         <main class="flex-grow-1 pt-3">
             <h1>Add New Dish</h1>
             <div class="form-container pt-3">
-                <form action="/api/dish" method="POST">
+                <form id="arf" action="/api/dish" method="POST">
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" id="rest_id" name="rest_id" value="<%= restId %>"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <input class="form-control" type="hidden" id="menu_id" name="menu_id" value="<%= menuId %>"
+                            required>
+                    </div>
                     <div class="form-group">
                         <label for="name">Dish Name:</label>
                         <input class="form-control" type="text" id="name" name="name" required>
@@ -63,19 +71,36 @@
                         <label for="price">Price:</label>
                         <input class="form-control" type="number" step="0.01" id="price" name="price" required>
                     </div>
-                    <div class="form-group">
-                        <label for="rest_id">Restaurant ID:</label>
-                        <input class="form-control" type="number" id="rest_id" name="rest_id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="menu_id">Menu ID:</label>
-                        <input class="form-control" type="number" id="menu_id" name="menu_id" required>
-                    </div>
                     <button type="submit" class="btn btn-dark w-100">Add Dish</button>
                 </form>
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.getElementById('arf').addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(this);
+                const sentData = Object.fromEntries(formData.entries());
+                fetch('/api/dish', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(sentData)
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.id) {
+                            window.location.href = `/`;
+                        } else {
+                            alert('Error creating menu. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        alert('An error occurred. Please try again.');
+                    });
+            });
+        </script>
         <%- include('partials/footer') %>
 </body>
 

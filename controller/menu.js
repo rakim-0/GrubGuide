@@ -4,6 +4,7 @@ const { make } = require("simple-body-validator");
 const { creationRule, updationRule } = require("./rules/menu");
 
 exports.createMenu = async (req, res) => {
+    // console.log(req.body);
     try {
         if (!req.body || Object.keys(req.body).length === 0) {
             throw new Error("Request body is empty");
@@ -17,7 +18,7 @@ exports.createMenu = async (req, res) => {
         const newMenu = await Menu.create(req.body);
         return res.status(201).json(newMenu);
     } catch (error) {
-        console.error("Error:", error);
+        console.log("Error:", error);
         return res.status(400).json({ message: error.message });
     }
 };

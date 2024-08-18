@@ -7,25 +7,18 @@ exports.createRestaurant = async (req, res) => {
         if (!req.body || Object.keys(req.body).length === 0) {
             throw new Error("Request body is empty");
         }
-        // Extract the time from the request body
+
         const { open_time } = req.body;
 
-        // Set the date to January 1st, 1976
         const openingTime = new Date("1976-01-01");
-
-        // If open_time is provided, set the time portion
         if (open_time) {
             const [hours, minutes] = open_time.split(":");
             openingTime.setHours(hours);
             openingTime.setMinutes(minutes);
         }
-        // Extract the time from the request body
+
         const { closing_time } = req.body;
-
-        // Set the date to January 1st, 1976
         const closingTime = new Date("1976-01-01");
-
-        // If open_time is provided, set the time portion
         if (closing_time) {
             const [hours, minutes] = closing_time.split(":");
             closingTime.setHours(hours);
@@ -34,12 +27,12 @@ exports.createRestaurant = async (req, res) => {
 
         req.body.open_time = openingTime;
         req.body.closing_time = closingTime;
-        console.log(req.body);
         const validator = make(req.body, creationRule);
         if (!validator.validate()) {
             res.status(400).json({ errors: validator.errors().all() });
         } else {
             const newRestaurant = await Restaurant.create(req.body);
+            // console.log(newRestaurant.json());
             res.status(201).json({
                 status: true,
                 data: newRestaurant,

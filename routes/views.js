@@ -18,10 +18,13 @@ viewRouter
         res.render("edit-restaurant.ejs");
     })
     .get("/create-menu", (req, res) => {
-        res.render("create-menu.ejs");
+        const rid = req.query.rest_id;
+        res.render("create-menu.ejs", { restId: rid });
     })
     .get("/create-dish", (req, res) => {
-        res.render("create-dish.ejs");
+        const rid = req.query.rest_id;
+        const mid = req.query.menu_id;
+        res.render("create-dish.ejs", { restId: rid, menuId: mid });
     })
     .get("/failure", (req, res) => {
         res.render("failure.ejs");
