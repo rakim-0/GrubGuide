@@ -1,7 +1,11 @@
+require("dotenv").config();
+
 const express = require("express");
 const path = require("node:path");
 const session = require("express-session");
 const passport = require("passport");
+const mySQLStore = require("express-mysql-session")(session);
+const mysql = require("mysql2");
 const { localStrategy } = require("./routes/auth");
 const User = require("./model/user");
 const app = express();
@@ -11,14 +15,43 @@ const dishRouter = require("./routes/dish");
 const restaurantRouter = require("./routes/restaurant");
 const syncDatabase = require("./db/sync-databases");
 const viewRouter = require("./routes/views");
+const { DatabaseError } = require("sequelize");
 
-// TODO: add express-session-mysql: https://www.npmjs.com/package/express-mysql-session
-// TODO: split views/.ejs files into components.
-// TODO: upload.js or dropzone.dev.
-// TODO: https://summernote.org/ for description box.
 app.use(express.json());
 app.use(express.urlencoded({ extended: "true", limit: "50mb" })); // 50mb to allow big forms/large data.
-app.use(session({ secret: "cats", resave: false, saveUninitialized: false }));
+var options = {
+    host: `${process.env.DB_HOST}`, // Host name for database connection.
+    port: `${process.env.DB_PORT}`, // Port number for database connection.
+    user: `${process.env.DB_USER}`, // Database user.
+    password: `${process.env.DB_PASSWORD}`, // Password for the above database user.
+    database: `${process.env.DB_NAME}`, // Database name.
+};
+var connection = mysql.createConnection(options);
+const sessionStore = new mySQLStore(
+    {
+        checkExpirationInterval: 900000, // How frequently expired sessions will be cleared; milliseconds.
+        expiration: 86400000, // The maximum age of a valid session; milliseconds.
+        createDatabaseTable: true, // Whether or not to create the sessions database table, if one does not already exist.
+        schema: {
+            tableName: "sessions",
+            columnNames: {
+                session_id: "session_id",
+                expires: "expires",
+                data: "data",
+            },
+        },
+    },
+    connection
+);
+app.use(
+    session({
+        secret: "cats",
+        resave: false,
+        saveUninitialized: true,
+        store: sessionStore,
+    })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -62,7 +95,14 @@ app.post(
         failureRedirect: "/failure",
     })
 );
-
+app.post("/logout", function (req, res, next) {
+    req.logout(function (err) {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+});
 passport.use(localStrategy);
 passport.serializeUser((user, done) => {
     done(null, user.id);

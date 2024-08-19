@@ -28,5 +28,13 @@ viewRouter
     })
     .get("/failure", (req, res) => {
         res.render("failure.ejs");
+    })
+    .post("/logout", (req, res) => {
+        req.logout(function (err) {
+            if (err) {
+                return next(err);
+            }
+            res.redirect("/");
+        });
     });
 module.exports = viewRouter;

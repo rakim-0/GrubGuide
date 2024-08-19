@@ -41,6 +41,16 @@
         color: white;
         text-decoration: none;
     }
+
+    .astext {
+        background: none;
+        border: none;
+        margin: 0;
+        padding: 0;
+        cursor: pointer;
+        color: white;
+        list-style-type: none;
+    }
 </style>
 
 <nav class="navbar">
@@ -58,6 +68,14 @@
             </ul>
             <% } else { %>
                 <!-- Add logged-in user options here if needed -->
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <form action="/logout" method="post">
+                            <button name="foo" value="upvote" class="astext">Logout</button>
+                        </form>
+                    </li>
+                </ul>
+
                 <% } %>
     </div>
 </nav>
