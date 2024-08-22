@@ -5,7 +5,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrubGuide - Add Dish</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- include libraries(jQuery, bootstrap) -->
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" />
+    <script type="text/javascript" src="cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- include summernote css/js -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
 </head>
 <style>
     body {
@@ -55,6 +65,7 @@
                         <label for="description">Description:</label>
                         <textarea class="form-control" id="description" name="description"></textarea>
                     </div>
+
                     <div class="form-group">
                         <label for="availability_time">Availability Time:</label>
                         <select class="form-control" id="availability_time" name="availability_time" required>
@@ -75,12 +86,29 @@
                 </form>
             </div>
         </main>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            $('#description').summernote({
+                placeholder: 'Please enter description here!',
+                tabsize: 2,
+                height: 120,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        </script>
         <script>
             document.getElementById('arf').addEventListener('submit', function (e) {
                 e.preventDefault();
                 const formData = new FormData(this);
                 const sentData = Object.fromEntries(formData.entries());
+                // Get Summernote content
+                sentData.description = $('#description').summernote('code');
                 fetch('/api/dish', {
                     method: 'POST',
                     headers: {
