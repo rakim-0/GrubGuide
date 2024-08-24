@@ -27,6 +27,15 @@
     .form-group {
         margin-bottom: 15px;
     }
+
+    .dropzone {
+        border: 2px dashed #0087F7;
+        border-radius: 5px;
+        background: white;
+        min-height: 150px;
+        padding: 20px;
+        box-sizing: border-box;
+    }
 </style>
 
 <body class="d-flex flex-column min-vh-100">
@@ -51,13 +60,16 @@
                     </div>
                     <div class="form-group">
                         <label for="gallery_image">Gallery Image URL:</label>
-                        <input class="form-control" type="text" id="gallery_image" name="gallery_image">
+                        <input class="form- control" type="text" id="gallery_image" name="gallery_image">
                     </div>
-                    <button type="submit" class="btn btn-dark w-100">Add Menu</button>
+                    <div class="dropzone" id="yourDropzoneName"></div>
+                    <button type="button" id="submit-all" class="btn btn-dark w-100">Add Menu</button>
                 </form>
             </div>
         </main>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
+        <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
         <script>
             document.getElementById('arf').addEventListener('submit', function (e) {
                 e.preventDefault();
@@ -81,6 +93,20 @@
                     .catch(error => {
                         alert('An error occurred. Please try again.');
                     });
+            });
+        </script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                var myDropzone = new Dropzone("#yourDropzoneName", {
+                    url: "/api/menu",
+                    autoProcessQueue: false,
+                    uploadMultiple: true,
+                    parallelUploads: 5,
+                    maxFiles: 5,
+                    maxFilesize: 1,
+                    acceptedFiles: 'image/*',
+                    addRemoveLinks: true,
+                });
             });
         </script>
         <%- include('partials/footer') %>
