@@ -137,19 +137,17 @@
                     async defer></script>
                 <script>
                     function initMap() {
-                        // Coordinates for the center of India (approximate)
                         const indiaCenter = { lat: 20.5937, lng: 78.9629 };
 
                         const map = new google.maps.Map(document.getElementById("map"), {
                             center: indiaCenter,
-                            zoom: 5,  // Adjust this value to show more or less of India
-                            // Optional: Restrict the map to India's bounds
+                            zoom: 5,
                             restriction: {
                                 latLngBounds: {
-                                    north: 35.5,  // Northernmost point of India
-                                    south: 6.5,   // Southernmost point of India
-                                    west: 68.0,   // Westernmost point of India
-                                    east: 97.5,   // Easternmost point of India
+                                    north: 35.5,
+                                    south: 6.5,
+                                    west: 68.0,
+                                    east: 97.5,
                                 },
                                 strictBounds: false,
                             }
