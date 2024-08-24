@@ -42,6 +42,7 @@
             <% }else {%>
                 <main class="flex-grow-1 pt-3">
                     <h1>Add New Restaurant</h1>
+
                     <div class="form-container pt-3">
                         <form id="arf" action="/api/restaurant" method="POST">
                             <div class="form-group">
@@ -82,6 +83,7 @@
                                 <input class="form-control" type="time" name="closing_time" id="closing_time" required
                                     value="22:00">
                             </div>
+                            <div id="map" style="height: 400px; width: 100%;"></div>
                             <div class="form-group">
                                 <label for="latitude">Latitude: </label>
                                 <input class="form-control" type="number" step="0.0000001" name="latitude" id="latitude"
@@ -129,6 +131,52 @@
                                 alert('An error occurred. Please try again.');
                             });
                     });
+                </script>
+                <script
+                    src="https://maps.googleapis.com/maps/api/js?key=<%= process.env.GOOGLE_MAPS_API_KEY %>&callback=initMap"
+                    async defer></script>
+                <script>
+                    function initMap() {
+                        // Coordinates for the center of India (approximate)
+                        const indiaCenter = { lat: 20.5937, lng: 78.9629 };
+
+                        const map = new google.maps.Map(document.getElementById("map"), {
+                            center: indiaCenter,
+                            zoom: 5,  // Adjust this value to show more or less of India
+                            // Optional: Restrict the map to India's bounds
+                            restriction: {
+                                latLngBounds: {
+                                    north: 35.5,  // Northernmost point of India
+                                    south: 6.5,   // Southernmost point of India
+                                    west: 68.0,   // Westernmost point of India
+                                    east: 97.5,   // Easternmost point of India
+                                },
+                                strictBounds: false,
+                            }
+                        });
+                        map.addListener("click", (event) => {
+                            const lat = event.latLng.lat();
+                            const lng = event.latLng.lng();
+                            console.log("Latitude: " + lat + ", Longitude: " + lng);
+                            // Update form fields
+                            document.getElementById('latitude').value = lat.toFixed(6);
+                            document.getElementById('longitude').value = lng.toFixed(6);
+
+                            // Remove existing marker if there is one
+                            if (marker) {
+                                marker.setMap(null);
+                            }
+
+                            // Place a new marker at the clicked location
+                            marker = new google.maps.Marker({
+                                position: event.latLng,
+                                map: map
+                            });
+                            // Here you can send this data to your server or use it as needed
+                        });
+
+                        // Rest of your code (event listener, etc.) ...
+                    }
 
                 </script>
                 <%- include('partials/footer') %>

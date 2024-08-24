@@ -15,7 +15,6 @@ const dishRouter = require("./routes/dish");
 const restaurantRouter = require("./routes/restaurant");
 const syncDatabase = require("./db/sync-databases");
 const viewRouter = require("./routes/views");
-const { DatabaseError } = require("sequelize");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: "true", limit: "50mb" })); // 50mb to allow big forms/large data.
