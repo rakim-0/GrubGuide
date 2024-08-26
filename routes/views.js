@@ -1,4 +1,5 @@
 const express = require("express");
+const axios = require("axios");
 const viewRouter = express.Router();
 
 viewRouter
@@ -36,5 +37,9 @@ viewRouter
             }
             res.redirect("/");
         });
+    })
+    .get("/all-restaurants", (req, res) => {
+        // Assuming you've fetched the restaurants data
+        res.render("all-restaurants", { restaurants: restaurants });
     });
 module.exports = viewRouter;
