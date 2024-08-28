@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const axios = require("axios");
 const viewRouter = express.Router();
@@ -39,7 +41,34 @@ viewRouter
         });
     })
     .get("/all-restaurants", (req, res) => {
-        // Assuming you've fetched the restaurants data
-        res.render("all-restaurants", { restaurants: restaurants });
+        axios
+            .get(`${process.env.API_BASE_URL}/api/restaurant`)
+            .then((response) => {
+                if (response.data.status) {
+                    const restaurants = response.data.data;
+                    res.render("all-restaurants", { restaurants: restaurants });
+                } else {
+                    console.error("API returned a failure status");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching restaurants:", error);
+            });
+    })
+    .get("/all-dishes", (req, res) => {
+        axios
+            .get(`${process.env.API_BASE_URL}/api/dish`)
+            .then((response) => {
+                if (response.data.status) {
+                    const dishes = response.data.data;
+                    // console.log("Dishes:", dishes);
+                    res.render("all-dishes", { dishes: dishes });
+                } else {
+                    console.error("API returned a failure status");
+                }
+            })
+            .catch((error) => {
+                console.error("Error fetching dishes:", error);
+            });
     });
 module.exports = viewRouter;

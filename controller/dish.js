@@ -24,9 +24,9 @@ exports.createDish = async (req, res) => {
 exports.getAllDishes = async (req, res) => {
     try {
         const dishes = await Dish.findAll();
-        return res.json(dishes);
+        return res.json({ status: true, data: dishes });
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        return res.status(500).json({ status: false, message: error.message });
     }
 };
 exports.getDishById = async (req, res) => {
