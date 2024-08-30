@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrubGuide - Add Menu</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
 </head>
 <style>
     body {
@@ -60,52 +61,82 @@
                     </div>
                     <div class="form-group">
                         <label for="gallery_image">Gallery Image URL:</label>
-                        <input class="form- control" type="text" id="gallery_image" name="gallery_image">
+                        <div class="input-group">
+                            <input class="form-control" type="text" id="gallery_image" name="gallery_image" readonly>
+                            <button class="btn btn-outline-secondary" type="button" id="upload-image-btn">Upload
+                                Image</button>
+                        </div>
                     </div>
-                    <div class="dropzone" id="yourDropzoneName"></div>
-                    <button type="button" id="submit-all" class="btn btn-dark w-100">Add Menu</button>
+                    <button type="submit" class="btn btn-dark w-100">Add Menu</button>
                 </form>
             </div>
         </main>
+
+        <!-- Modal for Dropzone -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadModalLabel">Upload Image</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div id="myDropzone" class="dropzone"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <script src="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone-min.js"></script>
-        <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
-        <script>
-            document.getElementById('arf').addEventListener('submit', function (e) {
-                e.preventDefault();
-                const formData = new FormData(this);
-                const sentData = Object.fromEntries(formData.entries());
-                fetch('/api/menu', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(sentData)
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.rest_id && data.id) {
-                            window.location.href = `/create-dish?rest_id=${data.rest_id}&menu_id=${data.id}`;
-                        } else {
-                            alert('Error creating menu. Please try again.');
-                        }
-                    })
-                    .catch(error => {
-                        alert('An error occurred. Please try again.');
-                    });
-            });
-        </script>
         <script>
             document.addEventListener("DOMContentLoaded", function () {
-                var myDropzone = new Dropzone("#yourDropzoneName", {
-                    url: "/api/menu",
-                    autoProcessQueue: false,
-                    uploadMultiple: true,
-                    parallelUploads: 5,
-                    maxFiles: 5,
+                const uploadModal = new bootstrap.Modal(document.getElementById('uploadModal'));
+                const uploadBtn = document.getElementById('upload-image-btn');
+                const galleryImageInput = document.getElementById('gallery_image');
+
+                uploadBtn.addEventListener('click', function () {
+                    uploadModal.show();
+                });
+
+                let myDropzone = new Dropzone("#myDropzone", {
+                    url: "/api/upload", // Replace with your actual upload endpoint
+                    autoProcessQueue: true,
+                    uploadMultiple: false,
+                    maxFiles: 1,
                     maxFilesize: 1,
                     acceptedFiles: 'image/*',
                     addRemoveLinks: true,
+                });
+
+                myDropzone.on("success", function (file, response) {
+                    galleryImageInput.value = response.imageUrl; // Assuming the server returns an object with imageUrl
+                    uploadModal.hide();
+                    myDropzone.removeAllFiles();
+                });
+
+                document.getElementById('arf').addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const formData = new FormData(this);
+                    const sentData = Object.fromEntries(formData.entries());
+                    fetch('/api/menu', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(sentData)
+                    })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.rest_id && data.id) {
+                                window.location.href = `/create-dish?rest_id=${data.rest_id}&menu_id=${data.id}`;
+                            } else {
+                                alert('Error creating menu. Please try again.');
+                            }
+                        })
+                        .catch(error => {
+                            alert('An error occurred. Please try again.');
+                        });
                 });
             });
         </script>

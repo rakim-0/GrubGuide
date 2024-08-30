@@ -15,6 +15,7 @@ const dishRouter = require("./routes/dish");
 const restaurantRouter = require("./routes/restaurant");
 const syncDatabase = require("./db/sync-databases");
 const viewRouter = require("./routes/views");
+const fileRouter = require("./routes/file");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: "true", limit: "50mb" })); // 50mb to allow big forms/large data.
@@ -65,7 +66,7 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
-app.use([menuRouter, dishRouter, restaurantRouter, viewRouter]);
+app.use([menuRouter, dishRouter, restaurantRouter, viewRouter, fileRouter]);
 
 syncDatabase()
     .then(() => {
