@@ -21,16 +21,62 @@
         .dish-card {
             margin-bottom: 20px;
         }
+
+        .card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-body {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .dish-description {
+            flex-grow: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+        }
+
+        .btn-group {
+            margin-top: auto;
+        }
+
+        .btn-black {
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
+
+        .btn-black:hover {
+            color: #fff;
+            background-color: #333;
+            border-color: #333;
+        }
+
+        .btn-outline-black {
+            color: #000;
+            border-color: #000;
+        }
+
+        .btn-outline-black:hover {
+            color: #fff;
+            background-color: #000;
+            border-color: #000;
+        }
     </style>
 </head>
 
 <body class="d-flex flex-column min-vh-100">
     <%- include('partials/navbar') %>
+        <h1>All Dishes</h1>
 
         <main class="flex-grow-1 pt-5 container">
-            <h1>GrubGuide</h1>
-            <h2>All Dishes</h2>
-
             <div class="row mt-5">
                 <% dishes.forEach(function(dish) { %>
                     <div class="col-md-4 dish-card">
@@ -47,7 +93,10 @@
                                 <p class="card-text">Restaurant: <%= dish.Restaurant ? dish.Restaurant.name : 'Unknown'
                                         %>
                                 </p>
-                                <a href="#" class="btn btn-dark">View Details</a>
+                                <div class="btn-group w-100" role="group">
+                                    <a href="#" class="btn btn-outline-black">Add to Cart</a>
+                                    <a href="#" class="btn btn-black">Order Now</a>
+                                </div>
                             </div>
                         </div>
                     </div>
