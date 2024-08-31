@@ -29,6 +29,9 @@ viewRouter
         const mid = req.query.menu_id;
         res.render("create-dish.ejs", { restId: rid, menuId: mid });
     })
+    .get("/view-cart", (req, res) => {
+        res.render("view-cart.ejs");
+    })
     .get("/failure", (req, res) => {
         res.render("failure.ejs");
     })
