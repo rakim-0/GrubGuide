@@ -56,11 +56,21 @@
                                 <p class="card-text">
                                     <%= restaurant.address %>
                                 </p>
-                                <p class="card-text">Rating: <%= restaurant.average_ratings %> (<%=
-                                            restaurant.total_ratings %> reviews)</p>
-                                <p class="card-text">Open: <%= restaurant.open_time %> - <%= restaurant.closing_time %>
-                                </p>
-                                <a href="#" class="btn btn-dark">View Details</a>
+                                <% if (restaurant.average_ratings && restaurant.total_ratings) { %>
+                                    <p class="card-text">
+                                        Rating: <%= restaurant.average_ratings %> (<%= restaurant.total_ratings %>
+                                                reviews)
+                                    </p>
+                                    <% } %>
+                                        <p class="card-text">
+                                            Open:
+                                            <%= new Date(restaurant.open_time).toLocaleTimeString([], { hour: '2-digit'
+                                                , minute: '2-digit' }) %>
+                                                -
+                                                <%= new Date(restaurant.closing_time).toLocaleTimeString([], {
+                                                    hour: '2-digit' , minute: '2-digit' }) %>
+                                        </p>
+                                        <!-- <a href="#" class="    btn btn-dark">View Details</a> -->
                             </div>
                         </div>
                     </div>

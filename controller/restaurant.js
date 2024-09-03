@@ -55,7 +55,7 @@ exports.getAllRestaurants = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-// TODO: offset the rules variable to a different file inside validations folder.
+
 exports.updateRestaurant = async (req, res) => {
     const validator = make(req.body, updationRule);
     if (!validator.validate()) {
@@ -121,5 +121,16 @@ exports.deleteRestaurantById = async (req, res) => {
     } catch (error) {
         console.error("Error in getRestaurantById:", error);
         return res.status(500).json({ message: "Internal server error" });
+    }
+};
+exports.findAllRestaurantsLessThan10km = async (req, res) => {
+    try {
+        const restaurants = await Restaurant.findAll();
+        res.json({
+            status: true,
+            data: restaurants,
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };

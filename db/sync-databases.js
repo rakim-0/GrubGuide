@@ -3,6 +3,7 @@ const Menu = require("../model/menu");
 const Dish = require("../model/dish");
 const Restaurant = require("../model/restaurant");
 const User = require("../model/user");
+const Cart = require("../model/cart");
 
 async function syncDatabase() {
     try {
