@@ -21,6 +21,7 @@ const Cart = sequelize.define("Cart", {
     mobileNumber: {},
     deliveryLocationLatitude: {},
     deliveryLocationLongitude: {},
+    count: {},
 });
 
 module.exports = Cart;
