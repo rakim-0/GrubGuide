@@ -18,10 +18,22 @@ const Cart = sequelize.define("Cart", {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    mobileNumber: {},
-    deliveryLocationLatitude: {},
-    deliveryLocationLongitude: {},
-    count: {},
+    mobileNumber: {
+        type: DataTypes.STRING(10),
+        // allowNULL: false,
+    },
+    deliveryLocationLatitude: {
+        type: DataTypes.DECIMAL(10, 7),
+        // allowNULL: false,
+    },
+    deliveryLocationLongitude: {
+        type: DataTypes.DECIMAL(10, 7),
+        // allowNULL: false,
+    },
+    count: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
 });
 
 module.exports = Cart;

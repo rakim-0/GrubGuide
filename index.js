@@ -12,6 +12,7 @@ const app = express();
 
 const menuRouter = require("./routes/menu");
 const dishRouter = require("./routes/dish");
+const cartRouter = require("./routes/cart");
 const restaurantRouter = require("./routes/restaurant");
 const syncDatabase = require("./db/sync-databases");
 const viewRouter = require("./routes/views");
@@ -66,7 +67,14 @@ app.use((req, res, next) => {
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
-app.use([menuRouter, dishRouter, restaurantRouter, viewRouter, fileRouter]);
+app.use([
+    menuRouter,
+    dishRouter,
+    restaurantRouter,
+    viewRouter,
+    fileRouter,
+    cartRouter,
+]);
 
 syncDatabase()
     .then(() => {
