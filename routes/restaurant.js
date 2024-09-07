@@ -6,19 +6,11 @@ const restaurantController = require("../controller/restaurant");
 
 restaurantRouter
     .post("/api/restaurant", restaurantController.createRestaurant)
-    .get("/api/restaurant/:id", restaurantController.getRestaurantById)
+    // .get("/api/restaurant/:id", restaurantController.getRestaurantById)
+    .get("/api/restaurant", restaurantController.getAllRestaurants)
     .get(
-        "/api/restaurant",
-        // (req, res, next) => {
-        //     if (res.locals.currentUser && res.locals.currentUser.role == 0) {
-        //         return next();
-        //     }
-        //     if (req.user) {
-        //         return next();
-        //     }
-        //     return res.json({ error: "NOT AUTHORIZED" });
-        // },
-        restaurantController.getAllRestaurants
+        "/api/restaurant/nearby",
+        restaurantController.findAllRestaurantsLessThan10km
     )
     .delete("/api/restaurant/:id", restaurantController.deleteRestaurantById)
     .patch("/api/restaurant", restaurantController.updateRestaurant);

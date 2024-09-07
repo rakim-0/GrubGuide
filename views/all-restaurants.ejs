@@ -32,22 +32,23 @@
     <%- include('partials/navbar') %>
 
         <main class="flex-grow-1 pt-5 container">
-            <h1>GrubGuide</h1>
-            <h2>All Restaurants</h2>
+            <h2 id="restaurantTypeHeader">
+                <%= latitude && longitude ? 'Restaurants Near You' : 'All Restaurants' %>
+            </h2>
 
             <div id="locationSwitch" class="btn-group" role="group" aria-label="Location switch">
-                <input type="radio" class="btn-check" name="locationOption" id="closeToMe" autocomplete="off">
+                <input type="radio" class="btn-check" name="locationOption" id="closeToMe" autocomplete="off"
+                    <%=latitude && longitude ? 'checked' : '' %>>
                 <label class="btn btn-dark" for="closeToMe">Close to Me</label>
 
                 <input type="radio" class="btn-check" name="locationOption" id="allRestaurants" autocomplete="off"
-                    checked>
+                    <%=!(latitude && longitude) ? 'checked' : '' %>>
                 <label class="btn btn-dark" for="allRestaurants">All Restaurants</label>
             </div>
 
             <div id="restaurantList" class="row mt-5">
                 <% restaurants.forEach(function(restaurant) { %>
-                    <div class="col-md-4 restaurant-card" data-lat="<%= restaurant.latitude %>"
-                        data-lng="<%= restaurant.longitude %>">
+                    <div class="col-md-4 restaurant-card">
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">
@@ -70,7 +71,6 @@
                                                 <%= new Date(restaurant.closing_time).toLocaleTimeString([], {
                                                     hour: '2-digit' , minute: '2-digit' }) %>
                                         </p>
-                                        <!-- <a href="#" class="    btn btn-dark">View Details</a> -->
                             </div>
                         </div>
                     </div>
@@ -82,62 +82,24 @@
 
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
             <script>
-                // Function to calculate distance between two points using Haversine formula
-                function getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-                    const R = 6371; // Radius of the earth in km
-                    const dLat = deg2rad(lat2 - lat1);
-                    const dLon = deg2rad(lon2 - lon1);
-                    const a =
-                        Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                        Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) *
-                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
-                    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-                    const d = R * c; // Distance in km
-                    return d;
-                }
-
-                function deg2rad(deg) {
-                    return deg * (Math.PI / 180)
-                }
-
-                // Function to filter restaurants based on user location
-                function filterRestaurants(userLat, userLng) {
-                    const restaurants = document.querySelectorAll('.restaurant-card');
-                    restaurants.forEach(restaurant => {
-                        const restLat = parseFloat(restaurant.dataset.lat);
-                        const restLng = parseFloat(restaurant.dataset.lng);
-                        const distance = getDistanceFromLatLonInKm(userLat, userLng, restLat, restLng);
-                        if (distance <= 20) {
-                            restaurant.style.display = 'block';
-                        } else {
-                            restaurant.style.display = 'none';
-                        }
-                    });
-                }
-
-                // Event listeners for the location switch
-                document.getElementById('closeToMe').addEventListener('change', function () {
-                    if (this.checked) {
-                        if ("geolocation" in navigator) {
-                            navigator.geolocation.getCurrentPosition(function (position) {
-                                filterRestaurants(position.coords.latitude, position.coords.longitude);
-                            }, function (error) {
-                                console.error("Error: " + error.message);
-                                alert("Unable to retrieve your location. Please check your settings and try again.");
-                            });
-                        } else {
-                            alert("Geolocation is not supported by your browser.");
-                        }
+                document.getElementById('closeToMe').addEventListener('click', function () {
+                    if ("geolocation" in navigator) {
+                        navigator.geolocation.getCurrentPosition(function (position) {
+                            console.log("Geolocation success:", position.coords.latitude, position.coords.longitude);
+                            window.location.href = `/all-restaurants?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`;
+                        }, function (error) {
+                            console.error("Geolocation error:", error.message);
+                            alert("Unable to retrieve your location. Please check your settings and try again.");
+                        });
+                    } else {
+                        console.error("Geolocation not supported");
+                        alert("Geolocation is not supported by your browser.");
                     }
                 });
 
-                document.getElementById('allRestaurants').addEventListener('change', function () {
-                    if (this.checked) {
-                        const restaurants = document.querySelectorAll('.restaurant-card');
-                        restaurants.forEach(restaurant => {
-                            restaurant.style.display = 'block';
-                        });
-                    }
+                document.getElementById('allRestaurants').addEventListener('click', function () {
+                    console.log("All restaurants selected");
+                    window.location.href = '/all-restaurants';
                 });
             </script>
 </body>

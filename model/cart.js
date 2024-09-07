@@ -14,7 +14,7 @@ const Cart = sequelize.define("Cart", {
         type: DataTypes.INTEGER,
         // allowNull: false,
     },
-    dishID: {
+    dishId: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },

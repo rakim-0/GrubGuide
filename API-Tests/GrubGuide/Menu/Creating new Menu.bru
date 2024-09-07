@@ -1,0 +1,21 @@
+meta {
+  name: Creating new Menu
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:8080/api/menu
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "rest_id": 1,     
+    "id": 1,
+    "menu_type": "lunch",
+    "rating": 4.50,
+    "gallery_image": "https://example.com/images/lunch-special.jpg"
+  }
+}

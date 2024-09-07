@@ -44,18 +44,34 @@ viewRouter
         });
     })
     .get("/all-restaurants", (req, res) => {
+        const { latitude, longitude } = req.query;
+        let apiUrl = `${process.env.API_BASE_URL}/api/restaurant`;
+        console.log(latitude, longitude);
+        if (latitude && longitude) {
+            apiUrl = `${process.env.API_BASE_URL}/api/restaurant/nearby?latitude=${latitude}&longitude=${longitude}`;
+        }
         axios
-            .get(`${process.env.API_BASE_URL}/api/restaurant`)
+            .get(apiUrl)
             .then((response) => {
                 if (response.data.status) {
                     const restaurants = response.data.data;
-                    res.render("all-restaurants", { restaurants: restaurants });
+                    res.render("all-restaurants", {
+                        restaurants: restaurants,
+                        latitude: latitude,
+                        longitude: longitude,
+                    });
                 } else {
                     console.error("API returned a failure status");
+                    res.status(500).render("error", {
+                        message: "Failed to fetch restaurants",
+                    });
                 }
             })
             .catch((error) => {
                 console.error("Error fetching restaurants:", error);
+                res.status(500).render("error", {
+                    message: "An error occurred while fetching restaurants",
+                });
             });
     })
     .get("/all-dishes", (req, res) => {
@@ -64,7 +80,6 @@ viewRouter
             .then((response) => {
                 if (response.data.status) {
                     const dishes = response.data.data;
-                    // console.log("Dishes:", dishes);
                     res.render("all-dishes", { dishes: dishes });
                 } else {
                     console.error("API returned a failure status");

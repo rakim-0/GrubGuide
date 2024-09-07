@@ -1,0 +1,22 @@
+meta {
+  name: Update Cart
+  type: http
+  seq: 3
+}
+
+patch {
+  url: http://localhost:8080/api/cart/1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "userId": 1,
+    "dishId": 1,
+    "mobileNumber": "7044454545",
+    "deliveryLocationLatitude": 21.5,
+    "deliveryLocationLongitude": 72.3,
+    "count": 2
+  }  
+}

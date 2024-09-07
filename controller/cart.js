@@ -14,7 +14,7 @@ exports.addToCart = async (req, res) => {
 };
 exports.updateCart = async (req, res) => {
     const [updatedRowsCount, updatedMenus] = await Cart.update(req.body, {
-        where: { id: req.body.id },
+        where: { id: req.params.id },
         returning: true,
     });
 

@@ -1,10 +1,10 @@
 const express = require("express");
 const cartRouter = express.Router();
-const cartController = require("../controller/dish");
+const cartController = require("../controller/cart");
 
 cartRouter
     .post("/api/cart", cartController.addToCart)
-    .get("/api/dish", dishController.getCartDetails)
-    .patch("/api/dish", dishController.updateCart);
+    .get("/api/cart", cartController.getCartDetails)
+    .patch("/api/cart/:id", cartController.updateCart);
 
 module.exports = cartRouter;

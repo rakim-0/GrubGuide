@@ -1,5 +1,6 @@
 // RestaurantController.js
 const Restaurant = require("../model/restaurant");
+const Sequelize = require("sequelize");
 const { make } = require("simple-body-validator");
 const { creationRule, updationRule } = require("./rules/restaurant");
 exports.createRestaurant = async (req, res) => {
@@ -125,7 +126,15 @@ exports.deleteRestaurantById = async (req, res) => {
 };
 exports.findAllRestaurantsLessThan10km = async (req, res) => {
     try {
-        const restaurants = await Restaurant.findAll();
+        const { latitude, longitude } = req.query;
+        const restaurants = await Restaurant.findAll({
+            where: Sequelize.literal(`
+          ST_Distance_Sphere(
+            point(longitude, latitude),
+            point(${longitude}, ${latitude})
+          ) <= 10000  -- 10km in meters
+        `),
+        });
         res.json({
             status: true,
             data: restaurants,

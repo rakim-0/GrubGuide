@@ -1,0 +1,25 @@
+meta {
+  name: NewDish
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:8080/api/dish
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "name": "Margherita Pizza",
+      "rating": 4.5,
+      "image": "https://example.com/images/margherita-pizza.jpg",
+      "description": "Classic Margherita pizza with fresh mozzarella, tomatoes, and basil",
+      "availability_time": "lunch",
+      "tags": "Italian, Vegetarian, Pizza",
+      "price": 12.99,
+      "rest_id": 1,
+      "menu_id": 3
+  }
+}
