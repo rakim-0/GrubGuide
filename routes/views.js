@@ -46,7 +46,6 @@ viewRouter
     .get("/all-restaurants", (req, res) => {
         const { latitude, longitude } = req.query;
         let apiUrl = `${process.env.API_BASE_URL}/api/restaurant`;
-        // console.log(latitude, longitude);
         if (latitude && longitude) {
             apiUrl = `${process.env.API_BASE_URL}/api/restaurant/nearby?latitude=${latitude}&longitude=${longitude}`;
         }
@@ -87,6 +86,25 @@ viewRouter
             })
             .catch((error) => {
                 console.error("Error fetching dishes:", error);
+            });
+    })
+    .get("/cart/:id", (req, res) => {
+        axios
+            .get(`${process.env.API_BASE_URL}/api/cart/${req.params.id}`)
+            .then((response) => {
+                if (response.data.status) {
+                    const dishes = response.data.data;
+                    var dishArr = [];
+                    for (let i = 0; i < dishes.length; i++) {
+                        dishArr.push(dishes[i].Dishes[0]);
+                    }
+                    res.render("cart", { dishes: dishArr });
+                } else {
+                    console.error("API returned a failure status");
+                }
+            })
+            .catch((error) => {
+                return res.status(error.status).json({ "Errors: ": error });
             });
     });
 module.exports = viewRouter;

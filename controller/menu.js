@@ -18,7 +18,6 @@ exports.createMenu = async (req, res) => {
         const newMenu = await Menu.create(req.body);
         return res.status(201).json(newMenu);
     } catch (error) {
-        console.log("Error:", error);
         return res.status(400).json({ message: error.message });
     }
 };

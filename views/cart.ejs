@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GrubGuide - Cart</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <style>
+            .cart-image {
+                max-width: 100px;
+                max-height: 100px;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body class="d-flex flex-column min-vh-100">
+        <%- include('partials/navbar') %>
+
+        <main class="flex-grow-1 container py-5">
+            <h1 class="mb-4">Your Cart</h1>
+            <% if (dishes && dishes.length > 0) { %>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let total = 0; %> <% dishes.forEach(function(dish) {
+                        %>
+                        <tr>
+                            <td>
+                                <img
+                                    src="<%= dish.image%>"
+                                    alt="<%= dish.name %>"
+                                    class="cart-image"
+                                />
+                            </td>
+                            <td><%= dish.name %></td>
+                            <td><%= dish.description %></td>
+                            <td>₹ <%= dish.price %></td>
+                            <td>
+                                <input
+                                    type="number"
+                                    class="form-control quantity-input"
+                                    data-dish-id="<%= dish.id %>"
+                                    value="<%= dish.quantity || 1 %>"
+                                    min="1"
+                                    style="width: 70px"
+                                />
+                            </td>
+                            <% const subtotal = (dish.price * (dish.quantity ||
+                            1)); %> <% total += subtotal; %>
+                            <td class="subtotal">
+                                ₹ <%= subtotal.toFixed(2) %>
+                            </td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="5" class="text-end">
+                                <strong>Total:</strong>
+                            </td>
+                            <td id="cartTotal">
+                                <strong>₹<%= total.toFixed(2) %></strong>
+                            </td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            <div class="text-end mt-4">
+                <button id="checkoutBtn" class="btn btn-primary black btn-lg">
+                    Proceed to Checkout
+                </button>
+            </div>
+            <% } else { %>
+            <div class="alert alert-info" role="alert">
+                Your cart is empty.
+                <a href="/menu" class="alert-link">Browse our menu</a> to add
+                some delicious dishes!
+            </div>
+            <% } %>
+        </main>
+
+        <%- include('partials/footer') %>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const quantityInputs =
+                    document.querySelectorAll(".quantity-input");
+                const cartTotal = document.getElementById("cartTotal");
+                const checkoutBtn = document.getElementById("checkoutBtn");
+
+                quantityInputs.forEach((input) => {
+                    input.addEventListener("change", updateSubtotalAndTotal);
+                });
+
+                function updateSubtotalAndTotal(event) {
+                    const input = event.target;
+                    const dishId = input.getAttribute("data-dish-id");
+                    const quantity = parseInt(input.value);
+                    const price = parseFloat(
+                        input
+                            .closest("tr")
+                            .querySelector("td:nth-child(4)")
+                            .textContent.slice(1)
+                    );
+                    const subtotalElement = input
+                        .closest("tr")
+                        .querySelector(".subtotal");
+
+                    const subtotal = price * quantity;
+                    subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
+
+                    updateTotal();
+                }
+
+                function updateTotal() {
+                    const subtotals = Array.from(
+                        document.querySelectorAll(".subtotal")
+                    ).map((el) => parseFloat(el.textContent.slice(1)));
+                    const total = subtotals.reduce(
+                        (acc, curr) => acc + curr,
+                        0
+                    );
+                    cartTotal.textContent = `₹${total.toFixed(2)}`;
+                }
+
+                if (checkoutBtn) {
+                    checkoutBtn.addEventListener("click", function () {
+                        // Implement checkout logic here
+                        alert("Proceeding to checkout...");
+                        // You might want to redirect to a checkout page or open a modal
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
