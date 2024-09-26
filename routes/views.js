@@ -46,7 +46,7 @@ viewRouter
     .get("/all-restaurants", (req, res) => {
         const { latitude, longitude } = req.query;
         let apiUrl = `${process.env.API_BASE_URL}/api/restaurant`;
-        console.log(latitude, longitude);
+        // console.log(latitude, longitude);
         if (latitude && longitude) {
             apiUrl = `${process.env.API_BASE_URL}/api/restaurant/nearby?latitude=${latitude}&longitude=${longitude}`;
         }
