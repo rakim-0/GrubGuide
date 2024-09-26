@@ -1,8 +1,22 @@
+const { Sequelize } = require("sequelize");
 const Cart = require("../model/cart");
-
+const Dish = require("../model/dish");
 exports.getCartDetails = async (req, res) => {
     try {
-        const cart = await Cart.findAll();
+        Cart.hasMany(Dish, {
+            foreignKey: "id",
+            sourceKey: "dishId",
+        });
+        const cart = await Cart.findAll({
+            attributes: ["*", "Cart.*"],
+            include: [
+                {
+                    model: Dish,
+                    required: true,
+                },
+            ],
+            where: { userId: req.params.userId },
+        });
         return res.json({ status: true, data: cart });
     } catch (error) {
         return res.status(500).json({ status: false, message: error.message });

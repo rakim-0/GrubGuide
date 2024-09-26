@@ -21,11 +21,11 @@ const fileRouter = require("./routes/file");
 app.use(express.json());
 app.use(express.urlencoded({ extended: "true", limit: "50mb" })); // 50mb to allow big forms/large data.
 var options = {
-    host: `${process.env.DB_HOST}`, // Host name for database connection.
-    port: `${process.env.DB_PORT}`, // Port number for database connection.
-    user: `${process.env.DB_USER}`, // Database user.
-    password: `${process.env.DB_PASSWORD}`, // Password for the above database user.
-    database: `${process.env.DB_NAME}`, // Database name.
+    host: `${process.env.DB_HOST}`,
+    port: `${process.env.DB_PORT}`,
+    user: `${process.env.DB_USER}`,
+    password: `${process.env.DB_PASSWORD}`,
+    database: `${process.env.DB_NAME}`,
 };
 var connection = mysql.createConnection(options);
 const sessionStore = new mySQLStore(
