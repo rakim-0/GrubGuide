@@ -79,7 +79,10 @@ viewRouter
             .then((response) => {
                 if (response.data.status) {
                     const dishes = response.data.data;
-                    res.render("all-dishes", { dishes: dishes });
+                    res.render("all-dishes", {
+                        dishes: dishes,
+                        userid: req["user"]["dataValues"]["id"],
+                    });
                 } else {
                     console.error("API returned a failure status");
                 }
@@ -89,16 +92,24 @@ viewRouter
             });
     })
     .get("/cart/:id", (req, res) => {
+        if (!req["user"] || req["user"]["dataValues"]["id"] != req.params.id) {
+            return res.status(500).json({ err: "Not Authorized" });
+        }
         axios
             .get(`${process.env.API_BASE_URL}/api/cart/${req.params.id}`)
             .then((response) => {
                 if (response.data.status) {
                     const dishes = response.data.data;
-                    var dishArr = [];
-                    for (let i = 0; i < dishes.length; i++) {
-                        dishArr.push(dishes[i].Dishes[0]);
+                    let newDishes = [];
+                    for (const key in dishes) {
+                        // console.log(dishes[key]["Dishes"]);
+                        dishes[key]["Dishes"].count = dishes[key]["count"];
+                        newDishes.push(dishes[key]["Dishes"]);
                     }
-                    res.render("cart", { dishes: dishArr });
+                    res.render("cart", {
+                        dishes: newDishes,
+                        userId: req.params.id,
+                    });
                 } else {
                     console.error("API returned a failure status");
                 }
