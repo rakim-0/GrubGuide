@@ -134,8 +134,18 @@
                     body: JSON.stringify(data),
                 })
                     .then(response => response.json())
-                    .then(data => console.log(data))
-                    .catch((error) => console.error(error));
+                    .then(data => {
+                        if (data) {
+                            alert("dish added successfully");
+                        }
+                    })
+                    .catch((error) => {
+                        if (data) {
+                            alert(error);
+                        }
+                        console.error(error)
+                    }
+                    );
             })
 
         })
