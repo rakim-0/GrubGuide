@@ -27,7 +27,7 @@ const User = sequelize.define("User", {
         allowNull: false,
     },
     role: {
-        type: DataTypes.INTEGER, // 0 = Admin, 1 = Restaurant Owners
+        type: DataTypes.INTEGER, // 0 = Admin, 1 = Restaurant Owners, 2 = Users
         allowNull: false,
     },
 });
