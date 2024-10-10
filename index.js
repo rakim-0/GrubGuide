@@ -30,8 +30,8 @@ var options = {
 var connection = mysql.createConnection(options);
 const sessionStore = new mySQLStore(
     {
-        checkExpirationInterval: 900000, // How frequently expired sessions will be cleared; milliseconds.
-        expiration: 86400000, // The maximum age of a valid session; milliseconds.
+        checkExpirationInterval: 100000, // How frequently expired sessions will be cleared; milliseconds.
+        expiration: 900000, // The maximum age of a valid session; milliseconds.
         createDatabaseTable: true, // Whether or not to create the sessions database table, if one does not already exist.
         schema: {
             tableName: "sessions",
@@ -99,7 +99,7 @@ app.post("/signup", async (req, res, next) => {
 app.post(
     "/login",
     passport.authenticate("local", {
-        successRedirect: "/create-restaurant",
+        successRedirect: "/",
         failureRedirect: "/failure",
     })
 );
