@@ -1,0 +1,61 @@
+body {
+    text-align: center;
+    background-size: 100% 120%;
+}
+
+h1 {
+    font-family: helvetica;
+    margin-top: 5rem;
+    font-size: 4rem;
+}
+
+.dish-card {
+    margin-bottom: 20px;
+}
+
+.card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.dish-description {
+    flex-grow: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.btn-group {
+    margin-top: auto;
+}
+
+.btn-black {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
+
+.btn-black:hover {
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+}
+
+.btn-outline-black {
+    color: #000;
+    border-color: #000;
+}
+
+.btn-outline-black:hover {
+    color: #fff;
+    background-color: #000;
+    border-color: #000;
+}
