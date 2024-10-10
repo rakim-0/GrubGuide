@@ -62,20 +62,27 @@
     </div>
     <div class="nav-group right">
         <% if (!locals.currentUser) { %>
-            <ul class="nav-list">
-                <li class="nav-item"><a href="/login">Login</a></li>
-                <li class="nav-item"><a href="/signup">Sign Up</a></li>
-            </ul>
-            <% } else { %>
-                <!-- Add logged-in user options here if needed -->
-                <ul class="nav-list">
-                    <li class="nav-item">
-                        <form action="/logout" method="post">
-                            <button name="foo" value="upvote" class="astext">Logout</button>
-                        </form>
-                    </li>
-                </ul>
+        <ul class="nav-list">
+            <li class="nav-item"><a href="/login">Login</a></li>
+            <li class="nav-item"><a href="/signup">Sign Up</a></li>
+        </ul>
+        <% } else { %>
+        <!-- Add logged-in user options here if needed -->
+        <ul class="nav-list">
+            <li class="nav-item">
+                <form action="/cart/<%=locals.currentUser.id%>" method="get">
+                    <button class="astext">Cart</button>
+                </form>
+            </li>
+        </ul>
+        <ul class="nav-list">
+            <li class="nav-item">
+                <form action="/logout" method="post">
+                    <button class="astext">Logout</button>
+                </form>
+            </li>
+        </ul>
 
-                <% } %>
+        <% } %>
     </div>
 </nav>
