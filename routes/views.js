@@ -79,9 +79,13 @@ viewRouter
             .then((response) => {
                 if (response.data.status) {
                     const dishes = response.data.data;
+                    let userId = -1;
+                    if (req.user) {
+                        userId = req.user.id;
+                    }
                     res.render("all-dishes", {
                         dishes: dishes,
-                        userid: req["user"]["dataValues"]["id"],
+                        userid: userId,
                     });
                 } else {
                     console.error("API returned a failure status");

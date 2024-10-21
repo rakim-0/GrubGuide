@@ -4,6 +4,7 @@ const Dish = require("../model/dish");
 const Restaurant = require("../model/restaurant");
 const User = require("../model/user");
 const Cart = require("../model/cart");
+const Order = require("../model/order");
 
 async function syncDatabase() {
     try {
