@@ -95,6 +95,25 @@ exports.deleteDishByID = async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 };
+exports.getDishesWithRestaurants = async (req, res) => {
+    try {
+        Dish.belongsTo(Restaurant, {
+            foreignKey: "id",
+            sourceKey: "rest_id",
+        });
+        const dishes = await Dish.findAll({
+            include: {
+                model: Restaurant,
+                attributes: ["name"],
+            },
+            returning: true,
+        });
+        return res.json({ status: true, data: dishes });
+    } catch (error) {
+        return res.status(500).json({ status: false, message: error.message });
+    }
+};
+
 exports.getDishesWithRestaurantsById = async (req, res) => {
     try {
         Dish.belongsTo(Restaurant, {

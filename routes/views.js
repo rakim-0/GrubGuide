@@ -75,7 +75,7 @@ viewRouter
     })
     .get("/all-dishes", (req, res) => {
         axios
-            .get(`${process.env.API_BASE_URL}/api/dish`)
+            .get(`${process.env.API_BASE_URL}/api/dish-rest`)
             .then((response) => {
                 if (response.data.status) {
                     const dishes = response.data.data;
@@ -83,6 +83,7 @@ viewRouter
                     if (req.user) {
                         userId = req.user.id;
                     }
+                    console.log(dishes[0]);
                     res.render("all-dishes", {
                         dishes: dishes,
                         userid: userId,
