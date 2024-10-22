@@ -1,4 +1,6 @@
 const Dish = require("../model/dish");
+const Restaurant = require("../model/restaurant");
+
 const { make } = require("simple-body-validator");
 const { creationRule, updationRule } = require("./rules/dish");
 // TODO: Cleanup
@@ -29,6 +31,7 @@ exports.getAllDishes = async (req, res) => {
         return res.status(500).json({ status: false, message: error.message });
     }
 };
+
 exports.getDishById = async (req, res) => {
     try {
         const validator = make(req.params, updationRule);
@@ -90,5 +93,26 @@ exports.deleteDishByID = async (req, res) => {
     } catch (error) {
         console.error("Error in getDishById:", error);
         res.status(500).json({ message: "Internal server error" });
+    }
+};
+exports.getDishesWithRestaurantsById = async (req, res) => {
+    try {
+        Dish.belongsTo(Restaurant, {
+            foreignKey: "id",
+            sourceKey: "rest_id",
+        });
+        const dishes = await Dish.findAll({
+            include: {
+                model: Restaurant,
+                attributes: ["name"],
+            },
+            where: {
+                id: req.params.id,
+            },
+            returning: true,
+        });
+        return res.json({ status: true, data: dishes });
+    } catch (error) {
+        return res.status(500).json({ status: false, message: error.message });
     }
 };

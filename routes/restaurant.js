@@ -6,7 +6,7 @@ const restaurantController = require("../controller/restaurant");
 
 restaurantRouter
     .post("/api/restaurant", restaurantController.createRestaurant)
-    // .get("/api/restaurant/:id", restaurantController.getRestaurantById)
+    .get("/api/restaurant/:id", restaurantController.getRestaurantById)
     .get("/api/restaurant", restaurantController.getAllRestaurants)
     .get(
         "/api/restaurant/nearby",
