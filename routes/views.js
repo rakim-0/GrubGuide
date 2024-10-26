@@ -83,7 +83,7 @@ viewRouter
                     if (req.user) {
                         userId = req.user.id;
                     }
-                    console.log(dishes[0]);
+                    console.log(dishes[1]);
                     res.render("all-dishes", {
                         dishes: dishes,
                         userid: userId,

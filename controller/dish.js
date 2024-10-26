@@ -98,8 +98,8 @@ exports.deleteDishByID = async (req, res) => {
 exports.getDishesWithRestaurants = async (req, res) => {
     try {
         Dish.belongsTo(Restaurant, {
-            foreignKey: "id",
-            sourceKey: "rest_id",
+            targetKey: "id",
+            foreignKey: "rest_id",
         });
         const dishes = await Dish.findAll({
             include: {
@@ -117,10 +117,11 @@ exports.getDishesWithRestaurants = async (req, res) => {
 exports.getDishesWithRestaurantsById = async (req, res) => {
     try {
         Dish.belongsTo(Restaurant, {
-            foreignKey: "id",
-            sourceKey: "rest_id",
+            targetKey: "id",
+            foreignKey: "rest_id",
         });
         const dishes = await Dish.findAll({
+            // logging: console.log,
             include: {
                 model: Restaurant,
                 attributes: ["name"],
