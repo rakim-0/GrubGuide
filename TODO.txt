@@ -1,0 +1,8 @@
+1. Split cart table into two.
+    one table to store cartId, userId
+    another table to store cartId, dishesId
+
+2. Generate random userId and add to localStorage. Replace it when user logs in.
+3. Cart should be updated with small bubble number.
+4. Redesign Cart Page so cart groups dishes by restaurant
+5. Implement API-Pagination.
