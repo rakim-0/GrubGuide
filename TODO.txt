@@ -1,8 +1,10 @@
 1. Split cart table into two.
-    one table to store cartId, userId
-    another table to store cartId, dishesId
+    one table to store cartId, userId, subtotal, total price, total taxes, total shipping, total discount percentage.
+    another table to store cartId, dishesId, quantity, price 
+        price is stored to keep track of what it was bought at.
 
 2. Generate random userId and add to localStorage. Replace it when user logs in.
 3. Cart should be updated with small bubble number.
 4. Redesign Cart Page so cart groups dishes by restaurant
-5. Implement API-Pagination.
+5. Randomly Generate data for restaurant.
+6. Implement API-Pagination.
