@@ -1,10 +1,29 @@
 1. Split cart table into two.
-    one table to store cartId, userId, subtotal, total price, total taxes, total shipping, total discount percentage.
-    another table to store cartId, dishesId, quantity, price 
-        price is stored to keep track of what it was bought at.
+    orders
+        id (primary key, unique identifier for each order)
+        cart_id (foreign key referencing the cart table)
+        user_id (foreign key referencing the users table)
+        subtotal
+        total_price
+        total_taxes
+        total_shipping
+        total_discount_percentage
+        created_at (timestamp for when the order was placed)
+        updated_at (timestamp for when the order was last updated)
 
+    order_items
+        id (primary key, unique identifier for each order item)
+        cart_id (foreign key referencing the cart table)
+        dish_id (foreign key referencing the dishes table)
+        quantity
+        price_at_purchase (price of the dish when it was added to the cart)
+        created_at (timestamp for when the item was added to the cart)
+        updated_at (timestamp for when the item was last updated)
+        
 2. Generate random userId and add to localStorage. Replace it when user logs in.
-3. Cart should be updated with small bubble number.
+
+3. Cart should be updated with small bubble number. Store the number in local storage.
 4. Redesign Cart Page so cart groups dishes by restaurant
-5. Randomly Generate data for restaurant.
-6. Implement API-Pagination.
+
+5. Implement API-Pagination.
+6. Randomly Generate data for restaurant.

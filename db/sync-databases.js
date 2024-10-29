@@ -5,7 +5,7 @@ const Restaurant = require("../model/restaurant");
 const User = require("../model/user");
 const Cart = require("../model/cart");
 const Order = require("../model/order");
-
+const OrderItem = require("../model/orderItem");
 async function syncDatabase() {
     try {
         await sequelize.sync({ force: false });
