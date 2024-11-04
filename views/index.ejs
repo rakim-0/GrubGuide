@@ -1,36 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GrubGuide</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+    </head>
+    <style>
+        body {
+            text-align: center;
+            /* background-image: url(https://safe.manu.moe/gIuVHmY5.png); */
+            background-size: 100% 120%;
+        }
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrubGuide</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<style>
-    body {
-        text-align: center;
-        /* background-image: url(https://safe.manu.moe/gIuVHmY5.png); */
-        background-size: 100% 120%;
-    }
+        h1 {
+            font-family: helvetica;
+            margin-top: 5rem;
+            font-size: 6rem;
+        }
 
-    h1 {
-        font-family: helvetica;
-        margin-top: 5rem;
-        font-size: 6rem;
-    }
+        .search-container form {
+            display: flex;
+        }
 
-    .search-container form {
-        display: flex;
-    }
+        .search-container input {
+            margin-right: 10px;
+        }
+    </style>
 
-    .search-container input {
-        margin-right: 10px;
-    }
-</style>
-
-<body class="d-flex flex-column min-vh-100">
-    <%- include('partials/navbar') %>
+    <body class="d-flex flex-column min-vh-100">
+        <%- include('partials/navbar') %>
         <main class="flex-grow-1 pt-5">
             <h1>GrubGuide</h1>
             <h2>Find Your Next Favorite Meal!</h2>
@@ -66,6 +68,6 @@
         </div>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
         <%- include('partials/footer') %>
-</body>
-
+    </body>
+    <script type="text/javascript" src="user.js"></script>
 </html>

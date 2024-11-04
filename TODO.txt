@@ -21,9 +21,12 @@
         updated_at (timestamp for when the item was last updated)
         
 2. Generate random userId and add to localStorage. Replace it when user logs in.
+    when should I store the userId in mysql table?
+    also should I store the email and phone number in local storage until order is placed?
 
 3. Cart should be updated with small bubble number. Store the number in local storage.
 4. Redesign Cart Page so cart groups dishes by restaurant
 
 5. Implement API-Pagination.
 6. Randomly Generate data for restaurant.
+7. Implement elasticsearch 

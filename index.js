@@ -19,6 +19,7 @@ const viewRouter = require("./routes/views");
 const fileRouter = require("./routes/file");
 const orderRouter = require("./routes/order");
 
+app.use(express.static("./views/public"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: "true", limit: "50mb" })); // 50mb to allow big forms/large data.
 var options = {
