@@ -60,7 +60,12 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
     if (req.user) {
-        res.locals.currentUser = req.user;
+        res.locals.currentUser = {
+            id: req.user.dataValues.id,
+            username: req.user.dataValues.username,
+            name: req.user.dataValues.name,
+            role: req.user.dataValues.role,
+        };
     }
     res.locals.query = req.query;
     res.locals.url = req.originalUrl;

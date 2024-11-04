@@ -16,6 +16,12 @@ function generateUserId() {
     return newUserId;
 }
 
-if (!checkIfUserIdExists()) {
-    setUserId(generateUserId());
-}
+
+window.onload = function () {
+    const userid = document.getElementById("userid");
+    if (userid) {
+        setUserId(userid.textContent);
+    } else {
+        setUserId(generateUserId());
+    }
+};
