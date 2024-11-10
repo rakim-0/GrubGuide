@@ -18,6 +18,7 @@ const syncDatabase = require("./db/sync-databases");
 const viewRouter = require("./routes/views");
 const fileRouter = require("./routes/file");
 const orderRouter = require("./routes/order");
+const userRouter = require("./routes/user");
 
 app.use(express.static("./views/public"));
 app.use(express.json());
@@ -82,6 +83,7 @@ app.use([
     fileRouter,
     cartRouter,
     orderRouter,
+    userRouter,
 ]);
 
 syncDatabase()
