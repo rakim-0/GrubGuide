@@ -22,11 +22,15 @@
         
 2. 
     2.1
-        Generate random userId and add to localStorage. Replace it when user logs in.
+        Generate random userId and add to localStorage. 
+            Replace it when user logs in.
+            Update cart table, change the user ID on cart table.
         when should I store the userId in mysql table?
         also should I store the email and phone number in local storage until order is placed?
+
     2.2
         how to update localStorage when a user logs in?
+        ans. delete it
 
 
 3. Cart should be updated with small bubble number. Store the number in local storage.
@@ -35,3 +39,15 @@
 5. Implement API-Pagination.
 6. Randomly Generate data for restaurant.
 7. Implement elasticsearch 
+
+
+how to implement delete in orders?
+
+
+Redundancy is good for performance. Instead of calculation 
+total items+shipping+taxes everytime, we put total price.
+
+Use Cart table for keeping track of cart items.
+Once the user places the order,
+then add everything to orderItems and order.
+
