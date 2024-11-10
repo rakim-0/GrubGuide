@@ -21,11 +21,6 @@ exports.getCartDetails = async (req, res) => {
             raw: true,
             nest: true,
         });
-        // console.log(cart);
-        // var dishArr = [];
-        // for (let i = 0; i < cart.length; i++) {
-        //     dishArr.push(cart[i].Dishes[0]);
-        // }
         return res.json({ status: true, data: cart });
     } catch (error) {
         return res.status(500).json({ status: false, message: error.message });
@@ -33,7 +28,7 @@ exports.getCartDetails = async (req, res) => {
 };
 exports.addToCart = async (req, res) => {
     /**
-     * Check if the dish already exists:
+     *  Check if the dish already exists:
      *      if yes then update the counter
      *      else add it to the list
      */
