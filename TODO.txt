@@ -28,10 +28,14 @@
         when should I store the userId in mysql table?
         also should I store the email and phone number in local storage until order is placed?
 
+        done!
+
     2.2
         how to update localStorage when a user logs in?
         ans. delete it
+        done!
 
+Also fixed to show cart always, regardless of whether user has logged in or not.
 
 3. Cart should be updated with small bubble number. Store the number in local storage.
 4. Redesign Cart Page so cart groups dishes by restaurant

@@ -114,13 +114,11 @@
         if (userid == null) {
             userid = '<%= userid %>';
         }
-        console.log(userid);
         const cards = document.querySelectorAll(".card");
         
         cards.forEach((card) => {
             let button = card.querySelector('#addToCart');
             button.addEventListener("click", (event) => {
-                // console.log(card.querySelector('#addToCart'));
                 const dishId = card.querySelector('#dish-id').textContent;
                 const data = {
                     userId: userid,
@@ -138,6 +136,12 @@
                     .then(data => {
                         if (data) {
                             alert("dish added successfully");
+                        }
+                        let numsOfItems = localStorage.getItem("items-in-cart");
+                        if (numsOfItems) {
+                            localStorage.setItem("items-in-cart", Number(numsOfItems)+1);
+                        } else {
+                            localStorage.setItem("items-in-cart", 1);
                         }
                     })
                     .catch((error) => {
