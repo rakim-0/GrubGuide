@@ -1,28 +1,118 @@
-const { Sequelize } = require("sequelize");
+const sequelize = require("../db/sequelize-connection.js");
+const Sequelize = require("sequelize");
 const Cart = require("../model/cart");
 const Dish = require("../model/dish");
+const Restaurant = require("../model/restaurant");
 const { set } = require("mongoose");
 exports.getCartDetails = async (req, res) => {
+    /*
+        Get cart details with restaurant names and 
+    */
+    /*
+        select r.id as restaurant_id, d.id as dish_id, d.name, r.name from Carts 
+        join Dishes as d on d.id=dish_id 
+        join Restaurants as r on r.id=d.rest_id;
+    */
     try {
-        Cart.hasMany(Dish, {
-            foreignKey: "id",
-            sourceKey: "dishId",
-        });
-        const cart = await Cart.findAll({
-            attributes: ["*"],
-            include: [
-                {
-                    model: Dish,
-                    required: true,
-                    raw: true,
-                },
-            ],
-            where: { userId: req.params.id },
-            raw: true,
-            nest: true,
-        });
-        return res.json({ status: true, data: cart });
+        // Cart.hasMany(Dish, {
+        //     foreignKey: "id",
+        //     sourceKey: "dishId",
+        // });
+        // const cart = await Cart.findAll({
+        //     attributes: ["*"],
+        //     include: [
+        //         {
+        //             model: Dish,
+        //             required: true,
+        //             raw: true,
+        //         },
+        //     ],
+        //     where: { userId: req.params.id },
+        //     raw: true,
+        //     nest: true,
+        // });
+        // Dish.belongsTo(Restaurant, { foreignKey: "rest_id", as: "restaurant" });
+        // Restaurant.hasMany(Dish, { foreignKey: "rest_id", as: "dishes" });
+
+        // Cart.belongsTo(Dish, { foreignKey: "dish_id", as: "dish" });
+        // Dish.hasMany(Cart, { foreignKey: "dish_id", as: "carts" });
+        // const cart = await Cart.findAll({
+        //     attributes: [
+        //         [sequelize.col("restaurant.id"), "restaurant_id"],
+        //         [sequelize.col("dish.id"), "dish_id"],
+        //         [sequelize.col("dish.name"), "dish_name"],
+        //         [sequelize.col("restaurant.name"), "restaurant_name"],
+        //     ],
+        //     include: [
+        //         {
+        //             model: Dish,
+        //             as: "dish", // Make sure this matches the association alias
+        //             attributes: [],
+        //             include: [
+        //                 {
+        //                     model: Restaurant,
+        //                     as: "restaurant", // Make sure this matches the association alias
+        //                     attributes: [],
+        //                 },
+        //             ],
+        //         },
+        //     ],
+        //     raw: true,
+        // });
+        const items = await sequelize.query(
+            `
+            SELECT price, quantity, r.id AS restaurant_id, d.id AS dish_id, d.name AS dish_name, r.name AS restaurant_name
+            FROM Carts
+            JOIN Dishes AS d ON d.id = Carts.dish_id
+            JOIN Restaurants AS r ON r.id = d.rest_id
+            WHERE Carts.user_id = :userId;
+          `,
+            {
+                replacements: { userId: req.params.id },
+                type: Sequelize.QueryTypes.SELECT,
+            }
+        );
+        /*
+            data format right now:
+                    "price": 350,
+                    "quantity": 1,
+                    "restaurant_id": 1,
+                    "dish_id": 1,
+                    "dish_name": "Pizza",
+                    "restaurant_name": "Tasty Bites"
+
+            after conversion:
+                "Tasty Bites" : {
+                    {
+                        "dish_name": "Pizza",
+                        "price": 350,
+                        "quantity": 1,
+                    },
+                    {
+                        "dish_name": "Pizza",
+                        "price": 350,
+                        "quantity": 1,
+                    },
+                }
+        */
+        data = {};
+        for (const item of items) {
+            const dish = {
+                dish_name: item["dish_name"],
+                price: item["price"],
+                quantity: item["quantity"],
+            };
+            const rest_name = item["restaurant_name"];
+            if (!data[rest_name]) {
+                data[rest_name] = [];
+                data[rest_name].push(dish);
+            } else {
+                data[rest_name].push(dish);
+            }
+        }
+        return res.status(201).json({ status: true, data: data });
     } catch (error) {
+        console.log(error);
         return res.status(500).json({ status: false, message: error.message });
     }
 };
