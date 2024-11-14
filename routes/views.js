@@ -97,24 +97,15 @@ viewRouter
             });
     })
     .get("/cart/:id", (req, res) => {
-        if (!req["user"] || req["user"]["dataValues"]["id"] != req.params.id) {
-            return res.status(500).json({ err: "Not Authorized" });
-        }
+        // if (!req["user"] || req["user"]["dataValues"]["id"] != req.params.id) {
+        //     return res.status(500).json({ err: "Not Authorized" });
+        // }
         axios
             .get(`${process.env.API_BASE_URL}/api/cart/${req.params.id}`)
             .then((response) => {
                 if (response.data.status) {
-                    const dishes = response.data.data;
-                    let newDishes = [];
-                    for (const key in dishes) {
-                        // console.log(dishes[key]["Dishes"]);
-                        dishes[key]["Dishes"].count = dishes[key]["count"];
-                        newDishes.push(dishes[key]["Dishes"]);
-                    }
-                    res.render("cart", {
-                        dishes: newDishes,
-                        userId: req.params.id,
-                    });
+                    const data = response.data.data;
+                    res.status(201).json({ data: data });
                 } else {
                     console.error("API returned a failure status");
                 }

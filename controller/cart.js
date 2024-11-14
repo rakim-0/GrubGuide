@@ -104,8 +104,7 @@ exports.getCartDetails = async (req, res) => {
             };
             const rest_name = item["restaurant_name"];
             if (!data[rest_name]) {
-                data[rest_name] = [];
-                data[rest_name].push(dish);
+                data[rest_name] = [dish];
             } else {
                 data[rest_name].push(dish);
             }
@@ -119,7 +118,7 @@ exports.getCartDetails = async (req, res) => {
 exports.addToCart = async (req, res) => {
     /**
      *  Check if the dish already exists:
-     *      if yes then update the counter
+     *      if yes then update the quantityer
      *      else add it to the list
      */
 
@@ -127,8 +126,8 @@ exports.addToCart = async (req, res) => {
     try {
         const checkCart = await Cart.findOne({
             where: {
-                userId: req.body.userId,
-                dishId: req.body.dishId,
+                user_id: req.body.user_id,
+                dish_id: req.body.dish_id,
             },
         });
         let cart;
@@ -136,24 +135,24 @@ exports.addToCart = async (req, res) => {
         if (!checkCart) {
             cart = await Cart.create(req.body);
         } else {
-            let newCount = checkCart.count + (req.body.count || 1);
-            if (newCount < 0) {
-                newCount = 0;
+            let newquantity = checkCart.quantity + (req.body.quantity || 1);
+            if (newquantity < 0) {
+                newquantity = 0;
             }
-            // console.log(newCount);
+            // console.log(newquantity);
             await Cart.update(
-                { count: newCount },
+                { quantity: newquantity },
                 {
                     where: {
-                        userId: req.body.userId,
-                        dishId: req.body.dishId,
+                        user_id: req.body.user_id,
+                        dish_id: req.body.dish_id,
                     },
                 }
             );
             cart = await Cart.findOne({
                 where: {
-                    userId: req.body.userId,
-                    dishId: req.body.dishId,
+                    user_id: req.body.user_id,
+                    dish_id: req.body.dish_id,
                 },
             });
         }
@@ -165,10 +164,10 @@ exports.addToCart = async (req, res) => {
 };
 exports.updateCart = async (req, res) => {
     try {
-        if (req.body.count && req.body.count < 0) {
-            req.body.count = 0;
+        if (req.body.quantity && req.body.quantity < 0) {
+            req.body.quantity = 0;
         }
-        const [updatedRowsCount, updatedCarts] = await Cart.update(req.body, {
+        const [updatedRowsquantity, updatedCarts] = await Cart.update(req.body, {
             where: {
                 userId: req.body.userId,
                 dishId: req.body.dishId,
@@ -176,7 +175,7 @@ exports.updateCart = async (req, res) => {
             returning: true,
         });
 
-        if (updatedRowsCount === 0) {
+        if (updatedRowsquantity === 0) {
             return res.status(404).json({ message: "Cart not found" });
         }
         return res.json({ status: true, data: updatedCarts });
