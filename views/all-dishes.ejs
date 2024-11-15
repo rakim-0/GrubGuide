@@ -130,9 +130,9 @@
             button.addEventListener("click", (event) => {
                 const dishId = card.querySelector('#dish-id').textContent;
                 const data = {
-                    userId: userid,
-                    dishId: dishId,
-                    count: 1
+                    user_id: userid,
+                    dish_id: dishId,
+                    quantity: 1
                 };
                 fetch('/api/cart', {
                     method: 'POST',
