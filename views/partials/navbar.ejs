@@ -92,7 +92,7 @@
     } else {
         userId = localStorage.getItem("userId");
     }
-    console.log(userId);
+    // console.log(userId);
     const url = new URL(`http://localhost:8080/cart/${userId}`);
     cart.action = url.href;
     cart.method = 'GET';

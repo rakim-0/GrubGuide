@@ -85,7 +85,7 @@
                 document.getElementById('closeToMe').addEventListener('click', function () {
                     if ("geolocation" in navigator) {
                         navigator.geolocation.getCurrentPosition(function (position) {
-                            console.log("Geolocation success:", position.coords.latitude, position.coords.longitude);
+                            // console.log("Geolocation success:", position.coords.latitude, position.coords.longitude);
                             window.location.href = `/all-restaurants?latitude=${position.coords.latitude}&longitude=${position.coords.longitude}`;
                         }, function (error) {
                             console.error("Geolocation error:", error.message);
@@ -98,7 +98,7 @@
                 });
 
                 document.getElementById('allRestaurants').addEventListener('click', function () {
-                    console.log("All restaurants selected");
+                    // console.log("All restaurants selected");
                     window.location.href = '/all-restaurants';
                 });
             </script>

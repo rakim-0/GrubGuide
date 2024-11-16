@@ -105,7 +105,10 @@ viewRouter
             .then((response) => {
                 if (response.data.status) {
                     const data = response.data.data;
-                    res.status(201).json({ data: data });
+                    res.render("new-cart", {
+                        data: data,
+                    });
+                    // res.status(201).json({});
                 } else {
                     console.error("API returned a failure status");
                 }
