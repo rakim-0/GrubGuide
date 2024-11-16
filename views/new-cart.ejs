@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Cart</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+        />
+    </head>
+    <body>
+        <%- include('partials/navbar') %>
+        <div>
+            <div class="p-5">
+                <% Object.keys(data).forEach(restaurant => { %>
+                <h1 class="title"><%= restaurant %></h1>
+                <table
+                    class="table is-striped is-fullwidth"
+                    style="table-layout: fixed"
+                    id="cart-table"
+                >
+                    <thead>
+                        <tr>
+                            <th>Dish Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% data[restaurant].forEach(dish => { %>
+                        <tr>
+                            <td id="dish-name"><%= dish.dish_name %></td>
+                            <td><%= dish.price.toString() %></td>
+                            <td><%= dish.quantity.toString() %></td>
+                        </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+                <% }); %>
+            </div>
+        </div>
+        <%- include('partials/footer') %>
+    </body>
+    <script>
+        const names = document.querySelectorAll("#dish-name"); // Select elements with class 'dish-name'
+        let mxLen = 0;
+        for (const name of names) {
+            mxLen = Math.max(mxLen, name.textContent.trim().length); // Use trim to avoid padding existing whitespace
+        }
+
+        // Pad textContent of each element to the maximum length
+        for (let name of names) {
+            name.textContent = name.textContent.trim().padEnd(mxLen); // Use trim before padding
+        }
+    </script>
+</html>
