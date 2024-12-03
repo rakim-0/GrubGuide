@@ -14,51 +14,6 @@ exports.getCartDetails = async (req, res) => {
         join Restaurants as r on r.id=d.rest_id;
     */
     try {
-        // Cart.hasMany(Dish, {
-        //     foreignKey: "id",
-        //     sourceKey: "dishId",
-        // });
-        // const cart = await Cart.findAll({
-        //     attributes: ["*"],
-        //     include: [
-        //         {
-        //             model: Dish,
-        //             required: true,
-        //             raw: true,
-        //         },
-        //     ],
-        //     where: { userId: req.params.id },
-        //     raw: true,
-        //     nest: true,
-        // });
-        // Dish.belongsTo(Restaurant, { foreignKey: "rest_id", as: "restaurant" });
-        // Restaurant.hasMany(Dish, { foreignKey: "rest_id", as: "dishes" });
-
-        // Cart.belongsTo(Dish, { foreignKey: "dish_id", as: "dish" });
-        // Dish.hasMany(Cart, { foreignKey: "dish_id", as: "carts" });
-        // const cart = await Cart.findAll({
-        //     attributes: [
-        //         [sequelize.col("restaurant.id"), "restaurant_id"],
-        //         [sequelize.col("dish.id"), "dish_id"],
-        //         [sequelize.col("dish.name"), "dish_name"],
-        //         [sequelize.col("restaurant.name"), "restaurant_name"],
-        //     ],
-        //     include: [
-        //         {
-        //             model: Dish,
-        //             as: "dish", // Make sure this matches the association alias
-        //             attributes: [],
-        //             include: [
-        //                 {
-        //                     model: Restaurant,
-        //                     as: "restaurant", // Make sure this matches the association alias
-        //                     attributes: [],
-        //                 },
-        //             ],
-        //         },
-        //     ],
-        //     raw: true,
-        // });
         const items = await sequelize.query(
             `
             SELECT price, quantity, r.id AS restaurant_id, d.id AS dish_id, d.name AS dish_name, r.name AS restaurant_name
@@ -169,8 +124,8 @@ exports.updateCart = async (req, res) => {
         }
         const [updatedRowsquantity, updatedCarts] = await Cart.update(req.body, {
             where: {
-                userId: req.body.userId,
-                dishId: req.body.dishId,
+                user_id: req.body.userId,
+                dish_id: req.body.dishId,
             },
             returning: true,
         });
@@ -179,6 +134,19 @@ exports.updateCart = async (req, res) => {
             return res.status(404).json({ message: "Cart not found" });
         }
         return res.json({ status: true, data: updatedCarts });
+    } catch (error) {
+        return res.status(500).json({ status: false, message: error.message });
+    }
+};
+exports.getNumDishes = async (req, res) => {
+    // SQL Query: select SUM(quantity) from Carts where user_id=1;
+    try {
+        const totalQuantity = await Cart.sum("quantity", {
+            where: {
+                user_id: req.params.id,
+            },
+        });
+        return res.json({ numDishes: totalQuantity });
     } catch (error) {
         return res.status(500).json({ status: false, message: error.message });
     }

@@ -1,170 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>GrubGuide - All Dishes</title>
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+        />
+        <style>
+            body {
+                text-align: center;
+                background-size: 100% 120%;
+            }
 
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>GrubGuide - All Dishes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <style>
-        body {
-            text-align: center;
-            background-size: 100% 120%;
-        }
+            h1 {
+                font-family: helvetica;
+                margin-top: 5rem;
+                font-size: 4rem;
+            }
 
-        h1 {
-            font-family: helvetica;
-            margin-top: 5rem;
-            font-size: 4rem;
-        }
+            .dish-card {
+                margin-bottom: 20px;
+            }
 
-        .dish-card {
-            margin-bottom: 20px;
-        }
+            .card {
+                height: 100%;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .card {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
+            .card-body {
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+            }
 
-        .card-body {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-        }
+            .dish-description {
+                flex-grow: 1;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+            }
 
-        .dish-description {
-            flex-grow: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            display: -webkit-box;
-            -webkit-box-orient: vertical;
-        }
+            .btn-group {
+                margin-top: auto;
+            }
 
-        .btn-group {
-            margin-top: auto;
-        }
+            .btn-black {
+                color: #fff;
+                background-color: #000;
+                border-color: #000;
+            }
 
-        .btn-black {
-            color: #fff;
-            background-color: #000;
-            border-color: #000;
-        }
+            .btn-black:hover {
+                color: #fff;
+                background-color: #333;
+                border-color: #333;
+            }
 
-        .btn-black:hover {
-            color: #fff;
-            background-color: #333;
-            border-color: #333;
-        }
+            .btn-outline-black {
+                color: #000;
+                border-color: #000;
+            }
 
-        .btn-outline-black {
-            color: #000;
-            border-color: #000;
-        }
+            .btn-outline-black:hover {
+                color: #fff;
+                background-color: #000;
+                border-color: #000;
+            }
+        </style>
+    </head>
 
-        .btn-outline-black:hover {
-            color: #fff;
-            background-color: #000;
-            border-color: #000;
-        }
-    </style>
-</head>
+    <body class="d-flex flex-column min-vh-100">
+        <%- include('partials/navbar') %>
+        <h1>All Dishes</h1>
 
-<body class="d-flex flex-column min-vh-100">
-    <%- include('partials/navbar') %>
-    <h1>All Dishes</h1>
-
-    <main class="flex-grow-1 pt-5 container">
-        <div class="row mt-5">
-            <% dishes.forEach(function(dish) { %>
-            <div class="col-md-4 dish-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title"><%= dish.name %></h5>
-                        <p class="card-text dish-description" id="dish-id">
-                            <%- dish.id %>
-                        </p>
-                        <div class="card-text dish-description">
-                            <%- dish.description || 'No description available' %>
-                        </div>
-                        <p class="card-text">
-                            Price: ₹<%= dish.price.toFixed(2) %>
-                        </p>
-                        <p class="card-text">
-                            Restaurant: <%= dish.Restaurant ?
-                                dish.Restaurant.name : 'Unknown' %>
-                        </p>
-                        <div class="btn-group w-100" role="group">
-                            <a class="btn btn-outline-black" id="addToCart">Add to Cart</a>
-                            <a class="btn btn-black">Order Now</a>
+        <main class="flex-grow-1 pt-5 container">
+            <div class="row mt-5">
+                <% dishes.forEach(function(dish) { %>
+                <div class="col-md-4 dish-card">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= dish.name %></h5>
+                            <p class="card-text dish-description" id="dish-id">
+                                <%- dish.id %>
+                            </p>
+                            <div class="card-text dish-description">
+                                <%- dish.description || 'No description available' %>
+                            </div>
+                            <p class="card-text">Price: ₹<%= dish.price.toFixed(2) %></p>
+                            <p class="card-text">
+                                Restaurant: <%= dish.Restaurant ? dish.Restaurant.name :
+                                'Unknown' %>
+                            </p>
+                            <div class="btn-group w-100" role="group">
+                                <a class="btn btn-outline-black" id="addToCart"
+                                    >Add to Cart</a
+                                >
+                                <a class="btn btn-black">Order Now</a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <% }); %>
             </div>
-            <% }); %>
-        </div>
-    </main>
+        </main>
 
-    <%- include('partials/footer') %>
+        <%- include('partials/footer') %>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function updateCartButton() {
-            const cartButton = document.getElementById('cart-button');
-            const newVal = localStorage.getItem('items-in-cart');
-            if (newVal) {
-                cartButton.textContent = `Cart - ${newVal}`;
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            let userid = localStorage.getItem("userId");
+            if (userid == null) {
+                userid = "<%= userid %>";
             }
-        }
-        updateCartButton();
-        const cartButton = document.getElementById('cart-button');
-        let userid = localStorage.getItem("userId");
-        if (userid == null) {
-            userid = '<%= userid %>';
-        }
-        const cards = document.querySelectorAll(".card");
-        
-        cards.forEach((card) => {
-            let button = card.querySelector('#addToCart');
-            button.addEventListener("click", (event) => {
-                const dishId = card.querySelector('#dish-id').textContent;
-                const data = {
-                    user_id: userid,
-                    dish_id: dishId,
-                    quantity: 1
-                };
-                fetch('/api/cart', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(data),
-                })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data) {
-                            let numsOfItems = localStorage.getItem("items-in-cart");
-                            if (numsOfItems) {
-                                localStorage.setItem("items-in-cart", Number(numsOfItems)+1);
-                                updateCartButton();
-                            } else {
-                                localStorage.setItem("items-in-cart", 1);
-                            }
+            function getDishCount() {}
+            function setLocalCount() {
+                fetch(`/api/cart/numDishes/${userid}`)
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! Status: ${response.status}`);
                         }
+                        return response.json(); // Parse JSON response
+                    })
+                    .then((data) => {
+                        const numDishes = data.numDishes;
+                        if (numDishes != null) {
+                            localStorage.setItem("items-in-cart", numDishes);
+                        } else {
+                            localStorage.setItem("items-in-cart", 0);
+                        }
+                        return numDishes; // Return the value if needed for further chaining
                     })
                     .catch((error) => {
-                        if (data) {
-                            alert(error);
-                        }
-                        console.error(error)
-                    }
-                    );
-            })
-
-        })
-
-    </script>
-</body>
-
+                        console.error("Error fetching numDishes:", error);
+                        alert(error.message); // Optional user feedback
+                    });
+            }
+            function updateCartButton() {
+                const cartButton = document.getElementById("cart-button");
+                const newVal = localStorage.getItem("items-in-cart");
+                if (newVal) {
+                    cartButton.textContent = `Cart - ${newVal}`;
+                }
+            }
+            setLocalCount();
+            updateCartButton();
+            const cartButton = document.getElementById("cart-button");
+            const cards = document.querySelectorAll(".card");
+            cards.forEach((card) => {
+                let button = card.querySelector("#addToCart");
+                button.addEventListener("click", (event) => {
+                    const dishId = card.querySelector("#dish-id").textContent;
+                    const data = {
+                        user_id: userid,
+                        dish_id: dishId,
+                        quantity: 1,
+                    };
+                    fetch("/api/cart", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(data),
+                    })
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data) {
+                                let numsOfItems = localStorage.getItem("items-in-cart");
+                                if (numsOfItems) {
+                                    localStorage.setItem(
+                                        "items-in-cart",
+                                        Number(numsOfItems) + 1
+                                    );
+                                    updateCartButton();
+                                } else {
+                                    localStorage.setItem("items-in-cart", 1);
+                                }
+                            }
+                        })
+                        .catch((error) => {
+                            if (data) {
+                                alert(error);
+                            }
+                            console.error(error);
+                        });
+                });
+            });
+        </script>
+    </body>
 </html>
