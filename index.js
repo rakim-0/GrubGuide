@@ -6,6 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 const mySQLStore = require("express-mysql-session")(session);
 const mysql = require("mysql2");
+const knex = require("./db/knex-connection");
 const { localStrategy } = require("./routes/auth");
 const User = require("./model/user");
 const app = express();

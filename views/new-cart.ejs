@@ -31,8 +31,10 @@
                         <% data[restaurant].forEach(dish => { %>
                         <tr>
                             <td id="dish-name"><%= dish.dish_name %></td>
-                            <td><%= dish.price.toString() %></td>
-                            <td><%= dish.quantity.toString() %></td>
+                            <td>₹ <%= dish.price.toString() %></td>
+                            <td>
+                              <input id="quantity-input" type="number" value="<%= dish.quantity.toString() %>">
+                            </td>
                         </tr>
                         <% }); %>
                     </tbody>

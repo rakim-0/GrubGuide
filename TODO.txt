@@ -43,7 +43,13 @@ update cart when userId is unset.
 4. Redesign Cart Page so cart groups dishes by restaurant
     DONE So need to join tables: cart+dish+restaurant
     DONE then need to pass it to frontend {restaurant: {dishes}}
-    after that write code to iterate through it and make tables.
+    DONE after that write code to iterate through it and make tables.
+
+Fix localStorage Cart Count.
+
+Add an order button and then move all dishes from cart to order table.
+
+Implement Stripe. Account is already made so implement the payment gateway.
 
 5. Implement API-Pagination.
 6. Randomly Generate data for restaurant.
