@@ -45,11 +45,13 @@ update cart when userId is unset.
     DONE then need to pass it to frontend {restaurant: {dishes}}
     DONE after that write code to iterate through it and make tables.
 
-Fix localStorage Cart Count.
+DONE Fix localStorage Cart Count.
 
 Add an order button and then move all dishes from cart to order table.
 
-Implement Stripe. Account is already made so implement the payment gateway.
+NOT POSSIBLE WITHOUT LLC: Implement Stripe. Account is already made so implement the payment gateway.
+
+
 
 5. Implement API-Pagination.
 6. Randomly Generate data for restaurant.

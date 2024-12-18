@@ -33,13 +33,20 @@
                             <td id="dish-name"><%= dish.dish_name %></td>
                             <td>₹ <%= dish.price.toString() %></td>
                             <td>
-                              <input id="quantity-input" type="number" value="<%= dish.quantity.toString() %>">
+                                <input
+                                    id="quantity-input"
+                                    type="number"
+                                    value="<%= dish.quantity.toString() %>"
+                                />
                             </td>
                         </tr>
                         <% }); %>
                     </tbody>
                 </table>
                 <% }); %>
+            </div>
+            <div class="is-flex is-justify-content-center">
+                <button id="checkoutBtn" class="button">Proceed to Checkout</button>
             </div>
         </div>
         <%- include('partials/footer') %>
@@ -54,6 +61,12 @@
         // Pad textContent of each element to the maximum length
         for (let name of names) {
             name.textContent = name.textContent.trim().padEnd(mxLen); // Use trim before padding
+        }
+
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener("click", function () {
+                alert("Proceeding to checkout...");
+            });
         }
     </script>
 </html>

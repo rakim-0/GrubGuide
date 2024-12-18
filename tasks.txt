@@ -1,0 +1,12 @@
+Add an order button and then move all dishes from cart to order table.
+    Implement it using a backend call. 
+    Check for necessary tokens and what not and then continue.
+
+Check if a user is able to register, add to cart and then checkout sucessfully
+
+Then during login allow user to register as restaurant or user
+
+Add a page to allow editing dishes, restaurants.
+
+Implement API-Pagination
+

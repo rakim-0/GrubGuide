@@ -1,3 +1,37 @@
+/*
+
+MariaDB [grubguide]> desc OrderItems;
++-----------------+----------+------+-----+---------+----------------+
+| Field           | Type     | Null | Key | Default | Extra          |
++-----------------+----------+------+-----+---------+----------------+
+| id              | int(11)  | NO   | PRI | NULL    | auto_increment |
+| orderId         | int(11)  | NO   |     | NULL    |                |
+| dishId          | int(11)  | NO   |     | 999999  |                |
+| quantity        | int(11)  | NO   |     | 999999  |                |
+| priceAtPurchase | double   | NO   |     | 999999  |                |
++-----------------+----------+------+-----+---------+----------------+
+
+MariaDB [grubguide]> desc Orders;
++------------+----------+------+-----+---------+----------------+
+| Field      | Type     | Null | Key | Default | Extra          |
++------------+----------+------+-----+---------+----------------+
+| id         | int(11)  | NO   | PRI | NULL    | auto_increment |
+| userId     | int(11)  | NO   |     | 99999   |                |
+| totalPrice | double   | YES  |     | 99999   |                |
++------------+----------+------+-----+---------+----------------+
+
+MariaDB [grubguide]> desc Carts;
++-----------+----------+------+-----+---------+----------------+
+| Field     | Type     | Null | Key | Default | Extra          |
++-----------+----------+------+-----+---------+----------------+
+| id        | int(11)  | NO   | PRI | NULL    | auto_increment |
+| user_id   | int(11)  | NO   |     | NULL    |                |
+| dish_id   | int(11)  | NO   |     | NULL    |                |
+| quantity  | int(11)  | NO   |     | NULL    |                |
++-----------+----------+------+-----+---------+----------------+
+
+*/
+
 require("dotenv").config();
 
 const { Sequelize, where } = require("sequelize");
@@ -7,39 +41,12 @@ const DishController = require("../controller/dish.js");
 
 exports.addToOrder = async (req, res) => {
     /*
-        input: userId, dishId
-        output: two new rows should be added to Order and orderItems
-        first 
+        input: userId
+        output: all the items from the cart should be moved to orderItems having same orderid
+
+        first get all dishes from Cart table
+        create and get order id from order table
+        insert dishes in Order Items 
     */
-    const userId = req.body["userId"];
-    const dishId = req.body["dishId"];
-
-    let order = await Order.findOne({
-        where: {
-            userId: userId,
-        },
-    });
-
-    if (!order) {
-        order = await Order.create({
-            userId: userId,
-        });
-    }
-    console.log(order.get({ plain: true }));
-    const orderId = order.id;
-
-    const response = await fetch(`${process.env.API_BASE_URL}/api/dish/${dishId}`);
-    const dish = await response.json();
-    // let item = null;
-    const item = await OrderItem.create({
-        orderId: orderId,
-        dishId: dishId,
-        quantity: 1,
-        priceAtPurchase: dish.price,
-    });
-    if (item) {
-        return res.json(item);
-    } else {
-        return res.json({ err: "error", dish: dish });
-    }
+    const userId = req.params.id;
 };

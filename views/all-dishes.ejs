@@ -116,7 +116,13 @@
             if (userid == null) {
                 userid = "<%= userid %>";
             }
-            function getDishCount() {}
+            function updateCartButton() {
+                const cartButton = document.getElementById("cart-button");
+                const newVal = localStorage.getItem("items-in-cart");
+                if (newVal) {
+                    cartButton.textContent = `Cart - ${newVal}`;
+                }
+            }
             function setLocalCount() {
                 fetch(`/api/cart/numDishes/${userid}`)
                     .then((response) => {
@@ -132,20 +138,15 @@
                         } else {
                             localStorage.setItem("items-in-cart", 0);
                         }
-                        return numDishes; // Return the value if needed for further chaining
+                        updateCartButton();
+                        return; // Return the value if needed for further chaining
                     })
                     .catch((error) => {
                         console.error("Error fetching numDishes:", error);
                         alert(error.message); // Optional user feedback
                     });
             }
-            function updateCartButton() {
-                const cartButton = document.getElementById("cart-button");
-                const newVal = localStorage.getItem("items-in-cart");
-                if (newVal) {
-                    cartButton.textContent = `Cart - ${newVal}`;
-                }
-            }
+
             setLocalCount();
             updateCartButton();
             const cartButton = document.getElementById("cart-button");
