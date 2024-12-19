@@ -97,24 +97,37 @@ viewRouter
             });
     })
     .get("/cart/:id", (req, res) => {
-        // if (!req["user"] || req["user"]["dataValues"]["id"] != req.params.id) {
-        //     return res.status(500).json({ err: "Not Authorized" });
-        // }
         axios
             .get(`${process.env.API_BASE_URL}/api/cart/${req.params.id}`)
             .then((response) => {
                 if (response.data.status) {
                     const data = response.data.data;
-                    res.render("new-cart", {
+                    return res.status(200).render("new-cart", {
                         data: data,
+                        user_id: req.user.id,
                     });
-                    // res.status(201).json({});
                 } else {
                     console.error("API returned a failure status");
+                    return res.status(400).render("error", {
+                        message: "Failed to fetch cart data",
+                    });
                 }
             })
             .catch((error) => {
-                return res.status(error.status).json({ "Errors: ": error });
+                console.error("Error fetching cart:", error);
+                const statusCode = error.response?.status || 500;
+                return res.status(statusCode).render("error", {
+                    message: "Error loading cart",
+                });
             });
+    })
+    .get("/order/:id", async (req, res) => {
+        const api_url = `${process.env.API_BASE_URL}/api/order/${req.params.id}`;
+        console.log(`API URL: ${api_url}`);
+        const response = await axios.post(api_url);
+        return res.status(200).render("order", {
+            data: response.data,
+            user_id: req.params.id,
+        });
     });
 module.exports = viewRouter;

@@ -46,7 +46,9 @@
                 <% }); %>
             </div>
             <div class="is-flex is-justify-content-center">
-                <button id="checkoutBtn" class="button">Proceed to Checkout</button>
+                <button id="checkoutBtn" class="button" data-user-id="<%= user_id %>">
+                    Proceed to Checkout
+                </button>
             </div>
         </div>
         <%- include('partials/footer') %>
@@ -65,7 +67,8 @@
 
         if (checkoutBtn) {
             checkoutBtn.addEventListener("click", function () {
-                alert("Proceeding to checkout...");
+                const userId = this.dataset.userId;
+                window.location.href = `/order/${userId}`;
             });
         }
     </script>

@@ -61,7 +61,6 @@
         <a href="/" class="nav-item"><b>GrubGuide</b></a>
     </div>
     <div class="nav-group right">
-        
         <ul class="nav-list">
             <li class="nav-item">
                 <form method="get" id="cart">
@@ -71,8 +70,8 @@
             <% if (!locals.currentUser) { %>
             <li class="nav-item"><a href="/login">Login</a></li>
             <li class="nav-item"><a href="/signup">Sign Up</a></li>
-        <% } else { %>
-        <!-- Add logged-in user options here if needed -->
+            <% } else { %>
+            <!-- Add logged-in user options here if needed -->
             <div id="logged-in" tag="<%=locals.currentUser.id%>"></div>
             <li class="nav-item">
                 <form action="/logout" method="post">
@@ -85,15 +84,15 @@
 </nav>
 <script src="user.js"></script>
 <script>
-    const cart = document.getElementById('cart');
-    const login = document.getElementById('logged-in')
+    const cart = document.getElementById("cart");
+    const login = document.getElementById("logged-in");
     if (login) {
-        userId = login.getAttribute('tag');
+        userId = login.getAttribute("tag");
     } else {
         userId = localStorage.getItem("userId");
     }
     // console.log(userId);
     const url = new URL(`http://localhost:8080/cart/${userId}`);
     cart.action = url.href;
-    cart.method = 'GET';
+    cart.method = "GET";
 </script>

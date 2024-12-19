@@ -15,11 +15,11 @@ const OrderItem = sequelize.define("OrderItems", {
         autoIncrement: true,
         primaryKey: true,
     },
-    orderId: {
+    order_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
-    dishId: {
+    dish_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 999999,
@@ -29,7 +29,7 @@ const OrderItem = sequelize.define("OrderItems", {
         allowNull: false,
         defaultValue: 999999,
     },
-    priceAtPurchase: {
+    price_at_purchase: {
         type: DataTypes.DOUBLE,
         allowNull: false,
         defaultValue: 999999,

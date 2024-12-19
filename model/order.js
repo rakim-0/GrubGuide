@@ -1,12 +1,7 @@
 // orders
-    //     id (primary key, unique identifier for each order)
-    //     cart_id (foreign key referencing the cart table)
-    //     user_id (foreign key referencing the users table)
-    //     subtotal
-    //     total_price
-    //     total_taxes
-    //     total_shipping
-    //     total_discount_percentage
+//     id (primary key, unique identifier for each order)
+//     user_id (foreign key referencing the users table)
+//     total_price
 
 const DataTypes = require("sequelize");
 const sequelize = require("../db/sequelize-connection");
@@ -19,13 +14,13 @@ const Order = sequelize.define("Orders", {
         primaryKey: true,
     },
 
-    userId: {
+    user_id: {
         type: DataTypes.INTEGER,
         allowNull: false,
         defaultValue: 99999,
     },
 
-    totalPrice: {
+    total_price: {
         type: DataTypes.DOUBLE,
         defaultValue: 99999,
     },

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html data-theme="light">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Order Details</title>
+        <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/bulma@1.0.2/css/bulma.min.css"
+        />
+    </head>
+    <body>
+        <%- include('partials/navbar') %>
+        <div class="container p-5">
+            <h1 class="title has-text-centered">Thanks for your order!</h1>
+            <h2 class="subtitle has-text-centered">Order details are shown below</h2>
+
+            <div class="box">
+                <p class="mb-3"><strong>Order ID:</strong> <%= data[0].order_id %></p>
+                <p class="mb-3">
+                    <strong>Order Date:</strong> <%= new
+                    Date(data[0].createdAt).toLocaleString() %>
+                </p>
+
+                <table class="table is-striped is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Dish Name</th>
+                            <th>Quantity</th>
+                            <th>Price</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% let orderTotal = 0; %> <% data.forEach(item => { %>
+                        <tr>
+                            <td><%= item.dish_name %></td>
+                            <td><%= item.quantity %></td>
+                            <td>₹ <%= item.price_at_purchase.toFixed(2) %></td>
+                            <td>
+                                ₹ <%= (item.quantity * item.price_at_purchase).toFixed(2)
+                                %>
+                            </td>
+                            <% orderTotal += item.quantity * item.price_at_purchase; %>
+                        </tr>
+                        <% }); %>
+                        <tr class="has-background-light">
+                            <td colspan="3" class="has-text-right">
+                                <strong>Order Total:</strong>
+                            </td>
+                            <td><strong>₹ <%= orderTotal.toFixed(2) %></strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="has-text-centered mt-5">
+                <a href="/" class="button is-primary">Return to Home</a>
+            </div>
+        </div>
+        <%- include('partials/footer') %>
+    </body>
+</html>
